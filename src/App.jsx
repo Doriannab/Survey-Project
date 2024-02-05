@@ -2,15 +2,16 @@ import './App.css';
 import './output.css';
 import Connexion from './components/Authentification/connexion';
 import Inscription from './components/Authentification/Inscription';
+import Accueil from './components/Accueil';
 
 
 function App() {
 
   return (
-    <div className='bg-gray-200'>
-     <p className="w-full bg-black text-red-500">Bienvenue</p>   
+    <div className=''>
      <Connexion />
      <Inscription />
+     <Accueil />
     </div>
   )
 }
