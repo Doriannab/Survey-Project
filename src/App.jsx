@@ -1,19 +1,31 @@
-import './App.css';
-import './output.css';
-import Connexion from './components/Authentification/connexion';
-import Inscription from './components/Authentification/Inscription';
-import Accueil from './components/Accueil';
-
+import "./App.css";
+// import "./output.css";
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Forms from "./pages/Forms";
+import Templates from "./layouts/Templates";
+import Inscription from "./pages/authentification/Inscription";
+import Connexion from "./pages/authentification/Connexion";
+import Sondages from "./pages/Sondages";
 
 function App() {
-
-  return (
-    <div className=''>
-     {/* <Connexion /> */}
-     {/* <Inscription /> */}
-     <Accueil />
-    </div>
-  )
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Templates />}>
+        <Route index element={<Home />} />
+        <Route path="/forms" element={<Forms />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/sondages" element={<Sondages />} />
+      </Route>
+    )
+  );
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
