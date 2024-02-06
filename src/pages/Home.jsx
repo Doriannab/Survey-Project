@@ -10,7 +10,7 @@ const Home = () => {
         <h1 className="text-gray-800 text-5xl font-black mb-8">
           La façon la plus simple de créer des sondages
         </h1>
-        <h3 className="text-gray-800 my-12 text-2xl">
+        <h3 className="text-gray-700 font-semibold my-12 text-xl">
           Dites adieu aux formulaires ennuyeux. Rencontrez Pulso — le générateur{" "}
           <br />
           gratuit de formulaires, intuitifs que vous recherchiez.
@@ -24,7 +24,7 @@ const Home = () => {
             Créer un formulaire
           </Button>
         </NavLink>
-        <p>Pas d'authentification requise</p>
+        <p className="text-gray-400">Pas d'authentification requise</p>
       </div>
     </div>
   );
