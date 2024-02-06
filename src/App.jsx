@@ -9,7 +9,7 @@ import {
 import Home from "./pages/Home";
 import Forms from "./pages/Forms";
 import Templates from "./layouts/Templates";
-import Inscription from "./pages/Inscription";
+import Inscription from "./pages/authentification/Inscription";
 import Connexion from "./pages/authentification/Connexion";
 import Sondages from "./pages/Sondages";
 
