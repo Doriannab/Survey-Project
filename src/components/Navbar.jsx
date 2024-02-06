@@ -10,23 +10,32 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white p-4 flex items-center justify-between fixed w-full">
+      <nav className="bg-white p-4 flex items-center justify-between fixed w-full z-50">
         <div>
           <NavLink to="/">
             <p className="text-gray-800 text-2xl font-bold">Pulso</p>
           </NavLink>
         </div>
         <div className="hidden md:flex items-center space-x-4">
-          <NavLink className="text-gray-400 font-bold hover:text-gray-600">
+          <NavLink
+            to="/sondages"
+            className="text-gray-400 font-bold hover:text-gray-600"
+          >
             Sondages
           </NavLink>
           <NavLink className="text-gray-400 font-bold hover:text-gray-600">
             Résultats
           </NavLink>
-          <NavLink className="text-gray-400 font-bold hover:text-gray-600">
+          <NavLink
+            to="/connexion"
+            className="text-gray-400 font-bold hover:text-gray-600"
+          >
             Connexion
           </NavLink>
-          <NavLink className="text-gray-400 font-bold hover:text-gray-600">
+          <NavLink
+            to="/inscription"
+            className="text-gray-400 font-bold hover:text-gray-600"
+          >
             Inscription
           </NavLink>
           <NavLink to="/forms">
