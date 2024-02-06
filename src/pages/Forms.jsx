@@ -39,12 +39,12 @@ const Forms = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="flex items-center justify-center h-screen font-sans">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <textarea
             placeholder="Titre du formulaire"
-            className="w-full p-2 border border-gray-300 text-4xl font-bold rounded"
+            className="w-full p-2 border-none outline-none text-4xl font-bold rounded"
             onKeyDown={handleTextareaSubmit}
           ></textarea>
         </div>
@@ -71,7 +71,7 @@ const Forms = () => {
               type={field.type}
               value={field.value}
               onChange={(e) => handleFieldChange(index, e)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border-none outline-none rounded"
             />
           </div>
         ))}

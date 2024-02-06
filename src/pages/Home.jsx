@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -14,13 +15,15 @@ const Home = () => {
           <br />
           gratuit de formulaires, intuitifs que vous recherchiez.
         </h3>
-        <Button
-          variant="contained"
-          endIcon={<ArrowForwardIcon />}
-          className="px-4 py-2 my-12 rounded-md"
-        >
-          Créer un formulaire
-        </Button>
+        <NavLink to="/forms">
+          <Button
+            variant="contained"
+            endIcon={<ArrowForwardIcon />}
+            className="px-4 py-2 my-12 rounded-md"
+          >
+            Créer un formulaire
+          </Button>
+        </NavLink>
         <p>Pas d'authentification requise</p>
       </div>
     </div>

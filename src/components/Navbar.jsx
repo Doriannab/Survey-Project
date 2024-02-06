@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,7 +12,10 @@ const Navbar = () => {
     <>
       <nav className="bg-white p-4 flex items-center justify-between fixed w-full">
         <div>
-          <p className="text-2xl font-bold">Pulso</p>
+          <Link to="/">
+            {" "}
+            <p className="text-2xl font-bold">Pulso</p>
+          </Link>
         </div>
         <div className="hidden md:flex items-center space-x-4">
           <a href="#" className="text-gray-800 hover:text-gray-600">
@@ -26,9 +30,11 @@ const Navbar = () => {
           <a href="#" className="text-gray-800 hover:text-gray-600">
             Inscription
           </a>
-          <button className="bg-blue-600 text-white px-4 py-1 rounded">
-            Créer
-          </button>
+          <NavLink to="/forms">
+            <button className="bg-blue-500 text-white px-4 py-1 rounded">
+              Créer un formulaire
+            </button>
+          </NavLink>
         </div>
         <div className="md:hidden flex items-center">
           <button
@@ -63,9 +69,11 @@ const Navbar = () => {
               >
                 Inscription
               </a>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
-                Créer un formulaire
-              </button>
+              <NavLink to="/forms">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+                  Créer un formulaire
+                </button>
+              </NavLink>
             </div>
           )}
         </div>

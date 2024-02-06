@@ -1,18 +1,25 @@
 import "./App.css";
 // import "./output.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Forms from "./pages/Forms";
+import Templates from "./layouts/Templates";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route to="/" element={<Home />} />
-        <Route to="/forms" element={<Forms />} />
-      </Routes>
-    </BrowserRouter>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Templates />}>
+        <Route index element={<Home />} />
+        <Route path="/forms" element={<Forms />} />
+      </Route>
+    )
   );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
