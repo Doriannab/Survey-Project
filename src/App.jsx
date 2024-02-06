@@ -9,6 +9,9 @@ import {
 import Home from "./pages/Home";
 import Forms from "./pages/Forms";
 import Templates from "./layouts/Templates";
+import Inscription from "./pages/Inscription";
+import Connexion from "./pages/authentification/Connexion";
+import Sondages from "./pages/Sondages";
 
 function App() {
   const router = createBrowserRouter(
@@ -16,6 +19,9 @@ function App() {
       <Route path="/" element={<Templates />}>
         <Route index element={<Home />} />
         <Route path="/forms" element={<Forms />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/sondages" element={<Sondages />} />
       </Route>
     )
   );
