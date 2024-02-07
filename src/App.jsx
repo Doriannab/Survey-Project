@@ -1,3 +1,4 @@
+
 import "./App.css";
 // import "./output.css";
 import {
@@ -12,6 +13,9 @@ import Templates from "./layouts/Templates";
 import Inscription from "./pages/authentification/Inscription";
 import Connexion from "./pages/authentification/Connexion";
 import Sondages from "./pages/Sondages";
+import Graphique from "./pages/Graphique";
+
+
 
 function App() {
   const router = createBrowserRouter(
@@ -22,10 +26,15 @@ function App() {
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/sondages" element={<Sondages />} />
+        <Route path="/resultats" element={<Graphique />} />
+      
       </Route>
     )
   );
   return <RouterProvider router={router} />;
+
+
+
 }
 
 export default App;
