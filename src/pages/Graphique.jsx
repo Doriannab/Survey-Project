@@ -4,34 +4,35 @@ import Progress from './Progess';
 
  function Graphique() {
   return (
-    <div className="w-full">
-			<h3 className="text-center text-black">Progress Bar</h3>
+    <div className="w-full h-full">
+			  <h1 className="text-center text-black text-4xl mb-24">Progress Bar</h1>
 			<Progress
 				bgcolor="orange"
-				progress="30"
+				progress="25"
 				height={30}
                 
 			/>
 			<Progress
 				bgcolor="red"
-				progress="60"
+				progress="55"
 				height={30}
 			/>
 			<Progress
-				bgcolor="#99ff66"
-				progress="50"
+				bgcolor="#685E43"
+				progress="45"
 				height={30}
 			/>
 			<Progress
-				bgcolor="#ff00ff"
-				progress="85"
+				bgcolor="#D3D3D3"
+				progress="80"
 				height={30}
 			/>
 			<Progress
 				bgcolor="#99ccff"
-				progress="95"
+				progress="39"
 				height={30}
 			/>
+          
 		</div>
 	);
 }
