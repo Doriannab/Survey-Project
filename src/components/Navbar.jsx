@@ -23,7 +23,9 @@ const Navbar = () => {
           >
             Sondages
           </NavLink>
-          <NavLink className="text-gray-400 font-bold hover:text-gray-600">
+          <NavLink
+          to="/resultats"
+           className="text-gray-400 font-bold hover:text-gray-600">
             Résultats
           </NavLink>
           <NavLink
@@ -59,7 +61,9 @@ const Navbar = () => {
               >
                 Sondages
               </NavLink>
-              <NavLink className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center">
+              <NavLink
+               to="/resultats"
+               className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center">
                 Résultats
               </NavLink>
               <NavLink
