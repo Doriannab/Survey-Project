@@ -1,7 +1,13 @@
-const Sondages = () => {
+const Accueil = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen font-sans">
-      <div className="mt-24 flex flex-wrap justify-center gap-8 sm:flex-col sm:items-center h-full lg:flex-row lg:justify-center lg:items-center">
+    <div className="mt-20 flex flex-col items-center">
+      <div className="mb-5">
+        <h3 className="text-2xl font-bold flex-grow mr-5">
+          Sondages Disponibles
+        </h3>
+      </div>
+
+      <div className="mt-20 flex justify-center">
         <div className="max-w-xs rounded overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2">
           <img
             className="w-full h-60"
@@ -44,4 +50,4 @@ const Sondages = () => {
   );
 };
 
-export default Sondages;
+export default Accueil;

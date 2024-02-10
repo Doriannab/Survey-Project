@@ -23,9 +23,6 @@ const Inscription = () => {
     <div className="flex items-center justify-center h-screen ">
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md backdrop-filter backdrop-blur-sm">
         <h2 className="text-3xl font-bold mb-6">Inscription</h2>
-        <p className="text-gray-700 text-md mb-6 text-start">
-          Explorez Pulso, créez des sondages captivants, partagez-les partout.
-        </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label

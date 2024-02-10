@@ -21,10 +21,6 @@ const Connexion = () => {
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md mb-5">
         <h2 className="text-3xl font-bold mb-6 mt-5 text-start">Connexion</h2>
-        <p className="text-gray-700 text-md mb-6 text-start">
-          Explorez Pulso, créez des sondages captivants, <br />
-          partagez-les avec le monde.
-        </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
