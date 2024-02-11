@@ -40,6 +40,9 @@ const Forms = () => {
 
   return (
     <div className="flex items-center justify-center h-screen font-sans">
+    <div className="absolute right-5 top-28">
+      <button className="rounded-md text-white bg-blue-500 w-32 text-lg h-10">Publish</button>
+    </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <textarea
