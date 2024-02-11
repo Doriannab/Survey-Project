@@ -4,11 +4,19 @@ const Accueil = () => {
   return (      
     <div className="mt-20 flex flex-col items-center">
 
+
     <div className=" mb-5">
         <h3 className="text-2xl font-bold flex-grow mr-5">Sondages Disponible</h3>
       </div>
 
       <div className="mt-20 flex justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+
+      <div className="mb-5">
+        <h3 className="text-2xl font-bold flex-grow mr-5">Sondages Disponibles</h3>
+      </div>
+
+      <div className="mt-20 flex justify-center">
+
         <div className="max-w-xs rounded overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2">
           <img className="w-full h-60" src="https://img.freepik.com/vecteurs-libre/illustration-du-concept-enquete-client_114360-558.jpg?w=740&t=st=1707156798~exp=1707157398~hmac=dd00876f7ac640aee4bb669e4cd6cf70bec42d2c1ade1dbbef74fa7358aecffa" alt="Img" />
           <div className="px-6 py-4">
