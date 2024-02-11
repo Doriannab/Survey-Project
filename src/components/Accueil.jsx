@@ -5,7 +5,7 @@ const Accueil = () => {
     <div className="mt-20 flex flex-col items-center">
 
     <div className=" mb-5">
-        <h3 className="text-2xl font-bold flex-grow mr-5">Sondages Disponibles</h3>
+        <h3 className="text-2xl font-bold flex-grow mr-5">Sondages Disponible</h3>
       </div>
 
       <div className="mt-20 flex justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">

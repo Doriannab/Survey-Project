@@ -5,9 +5,9 @@ const Progress= ({bgcolor,progress,height}) => {
 	
 	const Parentdiv = {
 		height: height,
-		width: 'w-full',
+		width: 'w-full max-lg:w-full',
 		backgroundColor: 'whitesmoke',
-		borderRadius: 40,
+		borderRadius: 50,
 		margin: 50
 	}
 	
@@ -15,7 +15,7 @@ const Progress= ({bgcolor,progress,height}) => {
 		height: '100%',
 		width: `${progress}%`,
 		backgroundColor: bgcolor,
-	borderRadius:40,
+	borderRadius:50,
 		textAlign: 'right'
 	}
 	
@@ -25,19 +25,14 @@ const Progress= ({bgcolor,progress,height}) => {
 		fontWeight: 900
 	}
 
-    const tilte = {
-        tilte: "Resultats Finals"
-
-    }
 	
 	return (
 
-        <div>
-     
+        <div className='relative'>
 	<div style={Parentdiv}>
 	<div style={Childdiv}>
 		<span style={progresstext}>{`${progress}%`}</span>
-        <h1>Resultas des Sondages</h1>
+        <h1>Voir Resultats</h1>
 
 	</div>
 	</div>
