@@ -16,20 +16,25 @@ const Progress = ({ bgcolor, progress, height }) => {
     textAlign: "right",
   };
 
+
   const progresstext = {
     padding: 10,
     color: "black",
     fontWeight: 900,
   };
 
-  return (
-    <div>
-      <div style={Parentdiv}>
-        <div style={Childdiv}>
-          <span style={progresstext}>{`${progress}%`}</span>
-          <h1>Resultas des Sondages</h1>
-        </div>
-      </div>
+
+	return (
+
+        <div className='relative'>
+	<div style={Parentdiv}>
+	<div style={Childdiv}>
+		<span style={progresstext}>{`${progress}%`}</span>
+        <h1>Voir Resultats</h1>
+
+	</div>
+	</div>
+
     </div>
   );
 };
