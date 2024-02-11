@@ -1,9 +1,8 @@
-import React from 'react';
-import Progress from './Progess';
+import Progress from "./Progess";
 
-
- function Graphique() {
+function Graphique() {
   return (
+
     <div className="flex w-full flex-col gap-0  ">
 			  <h1 className="text-center z-index  text-black text-4xl justtify-items-center mt-24 max-lg:text-4xl">Resultats des Sondages</h1>
               <div className="relative w-full">
@@ -41,7 +40,3 @@ import Progress from './Progess';
 }
 
 export default Graphique;
-
-
-
-
