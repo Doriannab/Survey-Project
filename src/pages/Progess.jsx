@@ -5,7 +5,7 @@ const Progress= ({bgcolor,progress,height}) => {
 	
 	const Parentdiv = {
 		height: height,
-		width: 'w-full',
+		width: 'w-full max-lg:w-full',
 		backgroundColor: 'whitesmoke',
 		borderRadius: 50,
 		margin: 50
@@ -28,7 +28,7 @@ const Progress= ({bgcolor,progress,height}) => {
 	
 	return (
 
-        <div>
+        <div className='relative'>
 	<div style={Parentdiv}>
 	<div style={Childdiv}>
 		<span style={progresstext}>{`${progress}%`}</span>
