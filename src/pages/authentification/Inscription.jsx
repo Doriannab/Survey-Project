@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Inscription = () => {
   const dispatch = useDispatch();
@@ -152,12 +152,13 @@ const Inscription = () => {
           </button>
           <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-4">
             Vous avez déjà un compte ?{" "}
-            <a
+            <Link
+              to="/connexion"
               href="#"
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Connectez-vous ici
-            </a>
+            </Link>
           </p>
         </form>
       </div>
