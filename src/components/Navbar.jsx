@@ -8,11 +8,15 @@ const Navbar = () => {
     setMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <>
       <nav className="bg-white p-4 flex items-center justify-between fixed w-full z-50">
         <div>
-          <NavLink to="/">
+          <NavLink to="/" onClick={closeMenu}>
             <p className="text-gray-800 text-2xl font-bold">Pulso</p>
           </NavLink>
         </div>
@@ -20,28 +24,33 @@ const Navbar = () => {
           <NavLink
             to="/sondages"
             className="text-gray-400 font-bold hover:text-gray-600"
+            onClick={closeMenu}
           >
             Sondages
           </NavLink>
           <NavLink
-          to="/resultats"
-           className="text-gray-400 font-bold hover:text-gray-600">
+            to="/resultats"
+            className="text-gray-400 font-bold hover:text-gray-600"
+            onClick={closeMenu}
+          >
             Résultats
           </NavLink>
           <NavLink
             to="/connexion"
             className="text-gray-400 font-bold hover:text-gray-600"
+            onClick={closeMenu}
           >
             Connexion
           </NavLink>
           <NavLink
             to="/inscription"
             className="text-gray-400 font-bold hover:text-gray-600"
+            onClick={closeMenu}
           >
             Inscription
           </NavLink>
-          <NavLink to="/forms">
-            <button className="bg-blue-500 text-white px-4 py-1 rounded">
+          <NavLink to="/forms" onClick={closeMenu}>
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
               Créer un formulaire
             </button>
           </NavLink>
@@ -58,28 +67,33 @@ const Navbar = () => {
               <NavLink
                 to="/sondages"
                 className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                onClick={closeMenu}
               >
                 Sondages
               </NavLink>
               <NavLink
-               to="/resultats"
-               className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center">
+                to="/resultats"
+                className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                onClick={closeMenu}
+              >
                 Résultats
               </NavLink>
               <NavLink
-                to="connexion"
+                to="/connexion"
                 className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                onClick={closeMenu}
               >
                 Connexion
               </NavLink>
               <NavLink
-                to="inscription"
+                to="/inscription"
                 className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                onClick={closeMenu}
               >
                 Inscription
               </NavLink>
-              <NavLink to="/forms">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+              <NavLink to="/forms" onClick={closeMenu}>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full focus:outline-none focus:bg-blue-600">
                   Créer un formulaire
                 </button>
               </NavLink>
