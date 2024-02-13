@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Connexion = () => {
   const dispatch = useDispatch();
@@ -89,12 +89,12 @@ const Connexion = () => {
           </button>
           <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-5">
             Vous n'avez pas de compte ?{" "}
-            <a
-              href="#"
+            <Link
+              to="/inscription"
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Inscrivez-vous ici
-            </a>
+            </Link>
           </p>
         </form>
       </div>
