@@ -24,6 +24,7 @@ const Inscription = () => {
     }));
   };
 
+  // Soumission du formulaire pour inscrire un utilisateur
   const handleSubmit = async (e) => {
     e.preventDefault();
 
