@@ -4,9 +4,11 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
 
 const Inscription = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,6 +45,7 @@ const Inscription = () => {
         password2: "",
         tc: false,
       });
+      navigate("/connexion");
     } catch (error) {
       console.error("Erreur lors de l'inscription :", error);
       toast.error(
@@ -53,7 +56,7 @@ const Inscription = () => {
 
   return (
     <div className="flex items-center justify-center h-screen ">
-      <Toaster />
+      <Toaster position="top-left" />
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md backdrop-filter backdrop-blur-sm">
         <h2 className="text-gray-800 text-3xl mb-6 font-bold text-center">
           Pulso
@@ -149,12 +152,13 @@ const Inscription = () => {
           </button>
           <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-4">
             Vous avez déjà un compte ?{" "}
-            <a
+            <Link
+              to="/connexion"
               href="#"
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Connectez-vous ici
-            </a>
+            </Link>
           </p>
         </form>
       </div>

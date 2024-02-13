@@ -4,9 +4,11 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
 
 const Connexion = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,6 +30,7 @@ const Connexion = () => {
         email: "",
         password: "",
       });
+      navigate("/forms");
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);
       toast.error(
@@ -38,7 +41,7 @@ const Connexion = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <Toaster />
+      <Toaster position="top-left" />
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md mb-5">
         <h2 className="text-gray-800 text-3xl mb-6 font-bold text-center">
           Pulso
@@ -86,12 +89,12 @@ const Connexion = () => {
           </button>
           <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-5">
             Vous n'avez pas de compte ?{" "}
-            <a
-              href="#"
+            <Link
+              to="/inscription"
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Inscrivez-vous ici
-            </a>
+            </Link>
           </p>
         </form>
       </div>
