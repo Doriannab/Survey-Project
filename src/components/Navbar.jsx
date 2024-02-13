@@ -50,7 +50,7 @@ const Navbar = () => {
             Inscription
           </NavLink>
           <NavLink to="/forms" onClick={closeMenu}>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
               Créer un formulaire
             </button>
           </NavLink>
@@ -93,7 +93,7 @@ const Navbar = () => {
                 Inscription
               </NavLink>
               <NavLink to="/forms" onClick={closeMenu}>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full focus:outline-none focus:bg-blue-600">
                   Créer un formulaire
                 </button>
               </NavLink>
