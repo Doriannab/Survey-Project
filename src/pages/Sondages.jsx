@@ -1,13 +1,7 @@
 const Sondages = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen font-sans">
-      <div className=" mb-5">
-        <h3 className="text-2xl font-bold flex-grow mr-5">
-          Sondages Disponibles
-        </h3>
-      </div>
-
-      <div className="mt-20 flex justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+      <div className="mt-24 flex flex-wrap justify-center gap-8 sm:flex-col sm:items-center h-full lg:flex-row lg:justify-center lg:items-center">
         <div className="max-w-xs rounded overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2">
           <img
             className="w-full h-60"

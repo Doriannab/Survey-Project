@@ -1,33 +1,48 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../components/services/AuthServices";
+import { setUser, setToken } from "../../components/features/AuthSlice";
+import { Toaster, toast } from "sonner";
 
 const Connexion = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
- 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulaire :", formData);
+    try {
+      const response = await loginUser(formData.email, formData.password);
+      dispatch(setUser(response.user));
+      dispatch(setToken(response.token.access));
+      toast.success("Vous êtes à présent connecté, amusez-vous!");
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.error("Erreur lors de la connexion:", error);
+      toast.error(
+        "Votre connexion a échoué. Veuillez vérifier votre connexion internet!"
+      );
+    }
   };
 
   return (
     <div className="flex items-center justify-center h-screen">
+      <Toaster />
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md mb-5">
-        <h2 className="text-3xl font-bold mb-6 mt-5 text-start">Connexion</h2>
-        <p className="text-gray-700 text-md mb-6 text-start">
-          Explorez Pulso, créez des sondages captivants, <br />
-          partagez-les avec le monde.
-        </p>
+        <h2 className="text-gray-800 text-3xl mb-6 font-bold text-center">
+          Pulso
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
@@ -46,7 +61,6 @@ const Connexion = () => {
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="password"
@@ -64,14 +78,12 @@ const Connexion = () => {
               required
             />
           </div>
-
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 mt-4 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
           >
             Se connecter
           </button>
-
           <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-5">
             Vous n'avez pas de compte ?{" "}
             <a
