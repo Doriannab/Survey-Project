@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectToken } from "../components/features/AuthSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -10,6 +14,16 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      dispatch(logout());
+      console.log("Déconnexion réussie");
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+      console.log("Déconnexion échouée");
+    }
   };
 
   return (
@@ -35,20 +49,35 @@ const Navbar = () => {
           >
             Résultats
           </NavLink>
-          <NavLink
-            to="/connexion"
-            className="text-gray-400 font-bold hover:text-gray-600"
-            onClick={closeMenu}
-          >
-            Connexion
-          </NavLink>
-          <NavLink
-            to="/inscription"
-            className="text-gray-400 font-bold hover:text-gray-600"
-            onClick={closeMenu}
-          >
-            Inscription
-          </NavLink>
+          {token ? (
+            <>
+              {/* Bouton de déconnexion */}
+              <button
+                className="text-gray-400 font-bold hover:text-gray-600"
+                onClick={handleLogout}
+              >
+                Déconnexion
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Liens d'inscription et de connexion */}
+              <NavLink
+                to="/connexion"
+                className="text-gray-400 font-bold hover:text-gray-600"
+                onClick={closeMenu}
+              >
+                Connexion
+              </NavLink>
+              <NavLink
+                to="/inscription"
+                className="text-gray-400 font-bold hover:text-gray-600"
+                onClick={closeMenu}
+              >
+                Inscription
+              </NavLink>
+            </>
+          )}
           <NavLink to="/forms" onClick={closeMenu}>
             <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
               Créer un formulaire
@@ -78,20 +107,33 @@ const Navbar = () => {
               >
                 Résultats
               </NavLink>
-              <NavLink
-                to="/connexion"
-                className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
-                onClick={closeMenu}
-              >
-                Connexion
-              </NavLink>
-              <NavLink
-                to="/inscription"
-                className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
-                onClick={closeMenu}
-              >
-                Inscription
-              </NavLink>
+              {token ? (
+                <>
+                  <button
+                    className="text-gray-400 font-bold hover:text-gray-600 w-full mb-2 text-center"
+                    onClick={handleLogout}
+                  >
+                    Déconnexion
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    to="/connexion"
+                    className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                    onClick={closeMenu}
+                  >
+                    Connexion
+                  </NavLink>
+                  <NavLink
+                    to="/inscription"
+                    className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                    onClick={closeMenu}
+                  >
+                    Inscription
+                  </NavLink>
+                </>
+              )}
               <NavLink to="/forms" onClick={closeMenu}>
                 <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full focus:outline-none focus:bg-blue-600">
                   Créer un formulaire

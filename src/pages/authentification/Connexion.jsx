@@ -27,7 +27,12 @@ const Connexion = () => {
       setLoading(true);
       const response = await loginUser(formData.email, formData.password);
       dispatch(setUser(response.user));
-      dispatch(setToken(response.token.access));
+      dispatch(
+        setToken({
+          access: response.token.access,
+          refresh: response.token.refresh,
+        })
+      );
       setFormData({
         email: "",
         password: "",
@@ -91,7 +96,7 @@ const Connexion = () => {
               to="/inscription"
               className="font-medium text-blue-500 hover:underline dark:text-primary-500"
             >
-              Inscrivez-vous ici
+              Inscrivez-vous ici !
             </Link>
           </p>
         </form>
