@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Inscription = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +30,7 @@ const Inscription = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await registerUser(
         formData.email,
         formData.password,
@@ -38,7 +40,6 @@ const Inscription = () => {
       );
       dispatch(setUser(response.user));
       dispatch(setToken(response.token));
-      toast.success("Vous êtes à présent inscrit, amusez-vous!");
       setFormData({
         name: "",
         email: "",
@@ -46,8 +47,13 @@ const Inscription = () => {
         password2: "",
         tc: false,
       });
-      navigate("/connexion");
+      setLoading(false);
+      toast.success("Vous êtes à présent inscrit, amusez-vous!");
+      setTimeout(() => {
+        navigate("/connexion");
+      }, 2000);
     } catch (error) {
+      setLoading(false);
       console.error("Erreur lors de l'inscription :", error);
       toast.error(
         "Votre inscription a échoué. Veuillez vérifier votre connexion internet!"
@@ -64,16 +70,11 @@ const Inscription = () => {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="nom"
-              className="block text-gray-700 text-sm font-bold text-start"
-            >
-              Nom
-            </label>
             <input
               type="text"
               id="name"
               name="name"
+              placeholder="Entrer le nom"
               value={formData.name}
               onChange={handleChange}
               className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-blue-500"
@@ -81,16 +82,11 @@ const Inscription = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-gray-700 text-sm font-bold text-start"
-            >
-              Email
-            </label>
             <input
               type="email"
               id="email"
               name="email"
+              placeholder="Entrer l'email"
               value={formData.email}
               onChange={handleChange}
               className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-blue-500"
@@ -98,16 +94,11 @@ const Inscription = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="mdp"
-              className="block text-gray-700 text-sm font-bold text-start"
-            >
-              Mot de Passe
-            </label>
             <input
               type="password"
               id="password"
               name="password"
+              placeholder="Entrer le mot de passe"
               value={formData.password}
               onChange={handleChange}
               className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-blue-500"
@@ -115,16 +106,11 @@ const Inscription = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="confirmerMdp"
-              className="block text-gray-700 text-sm font-bold text-start"
-            >
-              Confirmer Mot de Passe
-            </label>
             <input
               type="password"
               id="password2"
               name="password2"
+              placeholder="Confirmer le mot de passe"
               value={formData.password2}
               onChange={handleChange}
               className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none focus:border-blue-500"
@@ -141,24 +127,25 @@ const Inscription = () => {
               className="mr-2"
               required
             />
-            <label htmlFor="tc" className="text-gray-700 text-sm font-bold">
+            <label htmlFor="tc" className="text-gray-600 text-sm font-bold">
               J'accepte les termes et conditions
             </label>
           </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            disabled={loading}
           >
-            S'inscrire
+            {loading ? "Inscription en cours..." : "S'inscrire"}
           </button>
-          <p className="text-sm font-light text-start text-gray-500 dark:text-gray-400 mt-4">
+          <p className="text-sm text-start text-gray-800 mt-4">
             Vous avez déjà un compte ?{" "}
             <Link
               to="/connexion"
               href="#"
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium text-blue-500 hover:underline dark:text-primary-500"
             >
-              Connectez-vous ici
+              Connectez-vous ici !
             </Link>
           </p>
         </form>
