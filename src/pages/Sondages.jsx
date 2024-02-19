@@ -148,7 +148,7 @@ const Sondages = () => {
                 </div>
                 <ol className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
                   {survey.options.map((option, index) => (
-                    <li key={index}>{option}</li>
+                    <li key={index}>{`${index + 1}. ${option}`}</li>
                   ))}
                 </ol>
               </div>
