@@ -56,11 +56,11 @@ const Sondages = () => {
                 <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
                   {survey.question}
                 </div>
-                <ol className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
+                <ul className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
                   {survey.options.map((option, index) => (
                     <li key={index}>{`${index + 1}. ${option}`}</li>
                   ))}
-                </ol>
+                </ul>
               </div>
             </div>
           ))
