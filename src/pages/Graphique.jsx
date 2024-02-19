@@ -1,4 +1,5 @@
 
+
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 
@@ -35,6 +36,8 @@ class Graphique extends Component {
 		);
 	}
 }
+
+
 
 export default Graphique;
 

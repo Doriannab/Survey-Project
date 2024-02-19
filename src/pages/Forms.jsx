@@ -1,16 +1,20 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useRef, useState } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Forms = () => {
   const [formFields, setFormFields] = useState([
     { type: "text", value: "", key: 0 },
   ]);
   const [formTitle, setFormTitle] = useState("");
+  const inputRef = useRef(null);
 
   const handleTextareaSubmit = (e) => {
     if (e.key === "Enter") {
-      setFormTitle(e.target.value);
+      e.preventDefault();
+      inputRef.current.focus();
     }
   };
 
@@ -40,9 +44,11 @@ const Forms = () => {
 
   return (
     <div className="flex items-center justify-center h-screen font-sans">
-    <div className="absolute right-5 top-28">
-      <button className="rounded-md text-white bg-blue-500 w-32 text-lg h-10">Publish</button>
-    </div>
+      <div className="absolute right-5 top-28">
+        <button className="rounded-md text-white bg-blue-500  hover:bg-blue-600 text-lg h-10 px-4 focus:outline-none focus:bg-blue-600">
+          Publier
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <textarea
@@ -58,7 +64,10 @@ const Forms = () => {
               <button
                 type="button"
                 onClick={() => removeField(field.key)}
-                className="px-2 py-1 mr-1 rounded"
+                className={`px-2 py-1 mr-1 rounded ${
+                  index === 0 ? "disabled" : ""
+                }`}
+                disabled={index === 0}
               >
                 <DeleteIcon />
               </button>
@@ -71,6 +80,7 @@ const Forms = () => {
               </button>
             </div>
             <input
+              ref={inputRef}
               type={field.type}
               value={field.value}
               onChange={(e) => handleFieldChange(index, e)}
@@ -81,9 +91,9 @@ const Forms = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-4 py-2 bg-black text-white rounded"
+            className="px-4 py-2 bg-black  hover:bg-gray-800 text-white rounded"
           >
-            Submit
+            Soumettre <ArrowForwardIcon className="ml-2" />
           </button>
         </div>
       </form>
