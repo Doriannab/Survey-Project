@@ -51,7 +51,6 @@ const Navbar = () => {
           </NavLink>
           {token ? (
             <>
-              {/* Bouton de déconnexion */}
               <button
                 className="text-gray-400 font-bold hover:text-gray-600"
                 onClick={handleLogout}
@@ -61,7 +60,6 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              {/* Liens d'inscription et de connexion */}
               <NavLink
                 to="/connexion"
                 className="text-gray-400 font-bold hover:text-gray-600"
