@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import UpdateIcon from "@mui/icons-material/Update";
-import {  useSelector } from "react-redux";
-import {  selectToken } from "../components/features/AuthSlice";
-
+import { useSelector } from "react-redux";
+import { selectToken } from "../components/features/AuthSlice";
 
 const Sondages = () => {
   const [sondage, setSondages] = useState([]);
@@ -13,7 +12,6 @@ const Sondages = () => {
   // const [updatedOptions, setUpdatedOptions] = useState("");
   // const token = localStorage.getItem("token");
   const token = useSelector(selectToken);
-
 
   useEffect(() => {
     if (token) {
@@ -111,7 +109,7 @@ const Sondages = () => {
         {sondage.length === 1 ? (
           <div
             key={sondage[0].id}
-            className=" w-full rounded overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2"
+            className="w-full rounded-lg overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2"
           >
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">
@@ -142,19 +140,17 @@ const Sondages = () => {
           sondage.map((survey) => (
             <div
               key={survey.id}
-              className=" rounded-md overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
+              className="rounded-lg overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
             >
               <div className="py-4">
                 <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
                   {survey.question}
                 </div>
-                <ul className=" text-gray-400 font-bold hover:text-gray-600">
+                <ol className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
                   {survey.options.map((option, index) => (
-                    <li key={index}>
-                       {option}
-                    </li>
+                    <li key={index}>{option}</li>
                   ))}
-                </ul>
+                </ol>
               </div>
               {/* <hr />
               <div className="flex justify-around py-2">
