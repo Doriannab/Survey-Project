@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://django-backend-4yf4.onrender.com/api/user/";
+const API_BASE_URL = "https://pulso-backend.onrender.com/api/user/";
 
 // Inscrire un utilisateur
 export const registerUser = async (email, password, password2, name, tc) => {
