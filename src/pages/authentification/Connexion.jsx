@@ -27,10 +27,14 @@ const Connexion = () => {
       setLoading(true);
       const response = await loginUser(formData.email, formData.password);
       dispatch(setUser(response.user));
-      dispatch(setToken(response.token.access));
+      dispatch(
+        setToken({
+          access: response.token.access,
+          refresh: response.token.refresh,
+        })
+      );      
       
-      
-      localStorage.setItem("token", response.token.access);
+      // localStorage.setItem("token", response.token.access);
       localStorage.setItem("user", JSON.stringify(response.user_id));
 
 

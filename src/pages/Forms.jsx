@@ -24,7 +24,7 @@ const Forms = () => {
     options: [],
   });
 
-  useEffect(() => {
+   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);

@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import DeleteIcon from "@mui/icons-material/Delete";
-import UpdateIcon from "@mui/icons-material/Update";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import UpdateIcon from "@mui/icons-material/Update";
+import {  useSelector } from "react-redux";
+import {  selectToken } from "../components/features/AuthSlice";
+
 
 const Sondages = () => {
   const [sondage, setSondages] = useState([]);
-  const [selectedSurvey, setSelectedSurvey] = useState(null);
-  const [updatedQuestion, setUpdatedQuestion] = useState("");
-  const [updatedOptions, setUpdatedOptions] = useState("");
-  const token = localStorage.getItem("token");
+  // const [selectedSurvey, setSelectedSurvey] = useState(null);
+  // const [updatedQuestion, setUpdatedQuestion] = useState("");
+  // const [updatedOptions, setUpdatedOptions] = useState("");
+  // const token = localStorage.getItem("token");
+  const token = useSelector(selectToken);
+
 
   useEffect(() => {
     if (token) {
@@ -30,75 +35,75 @@ const Sondages = () => {
     }
   }, [token]);
 
-  const handleDelete = async (surveyId) => {
-    try {
-      if (token) {
-        const res = await axios.delete(
-          `https://pulso-backend.onrender.com/api/sondages/${surveyId}/`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (res.status === 204) {
-          setSondages((prevSurveys) =>
-            prevSurveys.filter((survey) => survey.id !== surveyId)
-          );
-        } else {
-          console.error("Error deleting survey");
-        }
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  // const handleDelete = async (surveyId) => {
+  //   try {
+  //     if (token) {
+  //       const res = await axios.delete(
+  //         `https://pulso-backend.onrender.com/api/sondages/${surveyId}/`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       if (res.status === 204) {
+  //         setSondages((prevSurveys) =>
+  //           prevSurveys.filter((survey) => survey.id !== surveyId)
+  //         );
+  //       } else {
+  //         console.error("Error deleting survey");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
-  const handleUpdate = (survey) => {
-    setSelectedSurvey(survey);
-    setUpdatedQuestion(survey.question);
-    setUpdatedOptions(survey.options.join("\n"));
-  };
+  // const handleUpdate = (survey) => {
+  //   setSelectedSurvey(survey);
+  //   setUpdatedQuestion(survey.question);
+  //   setUpdatedOptions(survey.options.join("\n"));
+  // };
 
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
+  // const handleUpdateSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      if (token) {
-        const updatedSurvey = {
-          question: updatedQuestion,
-          options: updatedOptions.split("\n"),
-        };
+  //   try {
+  //     if (token) {
+  //       const updatedSurvey = {
+  //         question: updatedQuestion,
+  //         options: updatedOptions.split("\n"),
+  //       };
 
-        const res = await axios.put(
-          `https://pulso-backend.onrender.com/api/sondages/${selectedSurvey.id}/`,
-          updatedSurvey,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  //       const res = await axios.put(
+  //         `https://pulso-backend.onrender.com/api/sondages/${selectedSurvey.id}/`,
+  //         updatedSurvey,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
 
-        if (res.status === 200) {
-          setSondages((prevSurveys) =>
-            prevSurveys.map((survey) =>
-              survey.id === selectedSurvey.id
-                ? { ...survey, ...updatedSurvey }
-                : survey
-            )
-          );
-          setSelectedSurvey(null);
-          setUpdatedQuestion("");
-          setUpdatedOptions("");
-        } else {
-          console.error("Error updating survey");
-        }
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  //       if (res.status === 200) {
+  //         setSondages((prevSurveys) =>
+  //           prevSurveys.map((survey) =>
+  //             survey.id === selectedSurvey.id
+  //               ? { ...survey, ...updatedSurvey }
+  //               : survey
+  //           )
+  //         );
+  //         setSelectedSurvey(null);
+  //         setUpdatedQuestion("");
+  //         setUpdatedOptions("");
+  //       } else {
+  //         console.error("Error updating survey");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen font-sans">
@@ -118,7 +123,7 @@ const Sondages = () => {
                 ))}
               </ul>
             </div>
-            <div className="flex justify-end items-center px-6 py-2">
+            {/* <div className="flex justify-end items-center px-6 py-2">
               <span>
                 <UpdateIcon
                   style={{ cursor: "pointer" }}
@@ -131,7 +136,7 @@ const Sondages = () => {
                   onClick={() => handleDelete(sondage[0].id)}
                 />
               </span>
-            </div>
+            </div> */}
           </div>
         ) : (
           sondage.map((survey) => (
@@ -151,7 +156,7 @@ const Sondages = () => {
                   ))}
                 </ul>
               </div>
-              <hr />
+              {/* <hr />
               <div className="flex justify-around py-2">
                 {token && (
                   <>
@@ -169,13 +174,13 @@ const Sondages = () => {
                     </span>
                   </>
                 )}
-              </div>
+              </div> */}
             </div>
           ))
         )}
       </div>
 
-      {/* Modal Modification Sondage */}
+      {/* Modal Modification Sondage
       {selectedSurvey && (
         <div className="absolute inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
           <div
@@ -230,7 +235,7 @@ const Sondages = () => {
             </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
