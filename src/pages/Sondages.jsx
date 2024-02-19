@@ -148,7 +148,7 @@ const Sondages = () => {
                 <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
                   {survey.question}
                 </div>
-                <ul className=" text-gray-400 font-bold hover:text-gray-600">
+                <ul className="list-disc text-gray-400 font-bold hover:text-gray-600">
                   {survey.options.map((option, index) => (
                     <li key={index}>
                        {option}
