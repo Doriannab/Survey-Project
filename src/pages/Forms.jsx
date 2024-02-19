@@ -55,6 +55,7 @@ const Forms = () => {
             placeholder="Titre du formulaire"
             className="w-full p-2 border-none outline-none text-4xl font-bold rounded"
             onKeyDown={handleTextareaSubmit}
+            required
           ></textarea>
         </div>
 
@@ -82,9 +83,11 @@ const Forms = () => {
             <input
               ref={inputRef}
               type={field.type}
+              placeholder="Contenu du formulaire"
               value={field.value}
               onChange={(e) => handleFieldChange(index, e)}
-              className="w-full p-2 border-none outline-none rounded"
+              className="w-full px-2 border-b border-gray-300 font-bold focus:outline-none focus:border-gray-400 rounded"
+              required
             />
           </div>
         ))}
