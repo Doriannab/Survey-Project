@@ -26,6 +26,16 @@ const Connexion = () => {
       const response = await loginUser(formData.email, formData.password);
       dispatch(setUser(response.user));
       dispatch(setToken(response.token.access));
+      
+      
+      localStorage.setItem("token", response.token.access);
+      localStorage.setItem("user", JSON.stringify(response.user_id));
+
+
+      console.log("User ID:", response.user_id); 
+      console.log("User:", response.email);
+      console.log("Token:", response.token.access);
+
       toast.success("Vous êtes à présent connecté, amusez-vous!");
       setFormData({
         email: "",
