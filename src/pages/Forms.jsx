@@ -64,9 +64,7 @@ const Forms = () => {
       toast.warning(
         "Veuillez vous identifier avant de pouvoir créer un sondage"
       );
-      setTimeout(() => {
-        navigate("/connexion");
-      }, 2000);
+      setTimeout(() => {}, 2000);
 
       return;
     }
@@ -138,7 +136,7 @@ const Forms = () => {
             placeholder="Titre du formulaire"
             className="w-full p-2 border-none outline-none text-4xl font-bold rounded"
             onKeyDown={handleTextareaSubmit}
-            required
+            // required
             value={formTitle}
             onChange={(e) => setFormTitle(e.target.value)}
           ></textarea>
