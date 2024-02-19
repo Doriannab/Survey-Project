@@ -39,6 +39,30 @@ export const loginUser = async (email, password) => {
   }
 };
 
+// Fonction de déconnexion de l'utilisateur
+export const logoutUser = async (refreshToken, accessToken) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}logout/`,
+      {
+        refresh_token: refreshToken,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw error.response.data;
+    } else {
+      throw error;
+    }
+  }
+};
+
 // Récupérer les données de l'utilisateur
 export const getUserProfile = async (token) => {
   try {
