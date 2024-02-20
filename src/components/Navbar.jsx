@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectToken } from "../components/features/AuthSlice";
+import { Toaster, toast } from "sonner";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -19,15 +20,18 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       dispatch(logout());
-      console.log("Déconnexion réussie");
+      toast.success("Vous n'êtes plus connecté !");
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
-      console.log("Déconnexion échouée");
+      toast.warning(
+        "VOus n'avez pas pu vous déconnecter. Vérifiez votre connexion internet !"
+      );
     }
   };
 
   return (
     <>
+      <Toaster position="top-left" />
       <nav className="bg-white p-4 flex items-center justify-between fixed w-full z-50">
         <div>
           <NavLink to="/" onClick={closeMenu}>
