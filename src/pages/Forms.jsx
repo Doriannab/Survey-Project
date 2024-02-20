@@ -82,7 +82,7 @@ const Forms = () => {
       const owner = localStorage.getItem("user");
 
       if (!owner) {
-        console.error("User not logged in. Unable to create the survey.");
+        console.error("Utilisateur pas connecté, Impossible de créer le Sondage");
         return;
       }
 
@@ -99,14 +99,8 @@ const Forms = () => {
         }
       );
 
-      console.log("API Response:", res.data);
-      console.log(
-        "Owner in API Response:",
-        res.data ? res.data.owner : "No owner property"
-      );
-
       if (res.status === 200 || res.status === 201) {
-        console.log("Survey created successfully!");
+        console.log("Sondage créé avec succès.!");
         setFormTitle("");
         setFormFields([{ type: "text", value: "", key: 0 }]);
 
