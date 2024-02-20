@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
+
+const storedAccessToken = localStorage.getItem("accessToken");
+const storedRefreshToken = localStorage.getItem("refreshToken");
 
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    token: null,
+    token: storedAccessToken ? storedAccessToken : null,
   },
   reducers: {
     setUser: (state, action) => {

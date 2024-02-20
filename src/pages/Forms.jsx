@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -12,6 +12,7 @@ import { Toaster, toast } from "sonner";
 const Forms = () => {
   const [token, setToken] = useState(useSelector(selectToken));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [formFields, setFormFields] = useState([
     { type: "text", value: "", key: 0 },
@@ -70,11 +71,15 @@ const Forms = () => {
 
       return;
     }
-
-    await submitForm({
-      question: formTitle,
-      options: formFields.map((field) => field.value),
-    });
+    try {
+      setLoading(true);
+      await submitForm({
+        question: formTitle,
+        options: formFields.map((field) => field.value),
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const submitForm = async (formData) => {
@@ -100,7 +105,9 @@ const Forms = () => {
       );
 
       if (res.status === 200 || res.status === 201) {
-        console.log("Sondage créé avec succès.!");
+        toast.success(
+          "Sondage créé. Vous pouvez à présent partager votre sondage !"
+        );
         setFormTitle("");
         setFormFields([{ type: "text", value: "", key: 0 }]);
 
@@ -137,7 +144,6 @@ const Forms = () => {
             onChange={(e) => setFormTitle(e.target.value)}
           ></textarea>
         </div>
-
         {formFields.map((field, index) => (
           <div key={field.key} className="flex items-center mb-4">
             <div className="ml-2 flex">
@@ -174,8 +180,10 @@ const Forms = () => {
           <button
             type="submit"
             className="px-4 py-2 bg-black  hover:bg-gray-800 text-white rounded"
+            disabled={loading}
           >
-            Soumettre <ArrowForwardIcon className="ml-2" />
+            {loading ? "Soumission..." : "Soumettre"}{" "}
+            <ArrowForwardIcon className="ml-2" />
           </button>
         </div>
       </form>
