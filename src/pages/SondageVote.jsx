@@ -33,40 +33,37 @@ const SondageVote = () => {
     fetchSondageDetails();
   }, [slug]);
 
-  useEffect(() => {
-    const hasVoted = localStorage.getItem('hasVoted') === 'true';
-    if (hasVoted) {
-      navigate('/pageaftervote');
-    }
-  }, [navigate]);
-
   const handleRadioChange = (option) => {
     setSelectedOption(option);
   };
 
   const handleVoteClick = async () => {
-    if (selectedOption) {
-      try {
-        const response = await axios.post(
-          'https://pulso-backend.onrender.com/api/sondages/choix/',
-          {
-            choix: selectedOption,
-            sondage_id: sondageDetails.id,
-          }
-        );
-
-        if (response.status === 201) {
-          console.log('Vote réussi !');
-          localStorage.setItem('hasVoted', 'true');
-          navigate('/pageaftervote');
-        } else {
-          console.error('Erreur lors du vote');
-        }
-      } catch (error) {
-        console.error('Erreur lors du vote:', error);
+    try {
+      if (!selectedOption) {
+        console.error("Veuillez sélectionner une option avant de voter.");
+        return;
       }
+  
+      const response = await axios.post(
+        'https://pulso-backend.onrender.com/api/sondages/choix/',
+        {
+          choix: selectedOption,
+          sondage_id: sondageDetails.id,
+        }
+      );
+  
+      // Vérifier la réponse du serveur
+      if (response.status === 201) {
+        console.log('Vote réussi !');
+        navigate('/pageaftervote');
+      } else {
+        console.error('Erreur lors du vote');
+      }
+    } catch (error) {
+      console.error('Erreur lors du vote:', error);
     }
   };
+  
 
   if (!sondageDetails) {
     return <div>Loading...</div>;
