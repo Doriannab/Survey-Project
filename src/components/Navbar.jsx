@@ -20,9 +20,11 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
 
+
       localStorage.removeItem('LienSondage');
       localStorage.removeItem('user');
       localStorage.removeItem('sondageId');
+
       
       dispatch(logout());
       toast.success("Vous n'êtes plus connecté !");
