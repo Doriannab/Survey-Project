@@ -109,7 +109,7 @@ const Forms = () => {
   
       if (res.status === 200 || res.status === 201) {
         const { slug, id } = res.data;
-        const LienSondage = `http://localhost:5173/sondages/${slug}`;
+        const LienSondage = `https://survey-project-fvg9.vercel.app/sondages/${slug}`;
 
 
         localStorage.setItem("LienSondage", LienSondage);
