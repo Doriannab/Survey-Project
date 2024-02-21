@@ -37,10 +37,6 @@ const Connexion = () => {
 
       localStorage.setItem("user", JSON.stringify(response.user_id));
 
-      console.log("User ID:", response.user_id);
-      console.log("User:", response.email);
-      console.log("Token:", response.token.access);
-      console.log("Token:", response.token.refresh);
 
       setFormData({
         email: "",
