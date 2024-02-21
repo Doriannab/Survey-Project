@@ -1,17 +1,21 @@
 /* eslint-disable no-unused-vars */
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useSelector } from "react-redux";
 import { selectToken } from "../components/features/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import { useDispatch } from 'react-redux';
+import { setLienSondage } from '../components/features/SondageSlices';
 
 const Forms = () => {
   const [token, setToken] = useState(useSelector(selectToken));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const [formFields, setFormFields] = useState([
     { type: "text", value: "", key: 0 },
@@ -70,24 +74,28 @@ const Forms = () => {
 
       return;
     }
-
-    await submitForm({
-      question: formTitle,
-      options: formFields.map((field) => field.value),
-    });
+    try {
+      setLoading(true);
+      await submitForm({
+        question: formTitle,
+        options: formFields.map((field) => field.value),
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const submitForm = async (formData) => {
     try {
       const owner = localStorage.getItem("user");
-
+  
       if (!owner) {
-        console.error("User not logged in. Unable to create the survey.");
+        console.error("Utilisateur pas connecté, Impossible de créer le Sondage");
         return;
       }
-
+  
       formData.owner = owner;
-
+  
       const res = await axios.post(
         "https://pulso-backend.onrender.com/api/sondages/",
         formData,
@@ -98,23 +106,23 @@ const Forms = () => {
           },
         }
       );
-
-      console.log("API Response:", res.data);
-      console.log(
-        "Owner in API Response:",
-        res.data ? res.data.owner : "No owner property"
-      );
-
+  
       if (res.status === 200 || res.status === 201) {
-        console.log("Survey created successfully!");
+        const { slug, id } = res.data;
+        const LienSondage = `http://localhost:5173/sondages/${slug}`;
+
+
+        localStorage.setItem("LienSondage", LienSondage);
+        localStorage.setItem("sondageId", id);
+
+        dispatch(setLienSondage(LienSondage));
+        // console.log("Redux:", store.getState());
+
+        toast.success(
+          "Sondage créé. Vous pouvez à présent partager votre sondage !"
+        );
         setFormTitle("");
         setFormFields([{ type: "text", value: "", key: 0 }]);
-
-        const sondageId = res.data.id;
-        const lienSondage = `http://localhost:5173/sondages/${sondageId}`;
-        console.log("Lien sondage:", lienSondage);
-      } else {
-        console.error("Unexpected status code:", res.status);
       }
     } catch (error) {
       console.error(
@@ -123,6 +131,7 @@ const Forms = () => {
       );
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center h-screen font-sans">
@@ -143,7 +152,6 @@ const Forms = () => {
             onChange={(e) => setFormTitle(e.target.value)}
           ></textarea>
         </div>
-
         {formFields.map((field, index) => (
           <div key={field.key} className="flex items-center mb-4">
             <div className="ml-2 flex">
@@ -180,8 +188,10 @@ const Forms = () => {
           <button
             type="submit"
             className="px-4 py-2 bg-black  hover:bg-gray-800 text-white rounded"
+            disabled={loading}
           >
-            Soumettre <ArrowForwardIcon className="ml-2" />
+            {loading ? "Soumission..." : "Soumettre"}{" "}
+            <ArrowForwardIcon className="ml-2" />
           </button>
         </div>
       </form>

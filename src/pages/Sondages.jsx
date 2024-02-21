@@ -104,20 +104,27 @@ const Sondages = () => {
   // };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen font-sans">
-      <div className="mt-24 flex flex-wrap justify-center gap-8">
+    <div className="flex flex-col items-center justify-center font-sans h-screen">
+      {(!token || sondage.length === 0) && (
+        <div className="text-center text-gray-400 text-2xl font-bold">
+          {token
+            ? "Aucun sondage à afficher pour l'utilisateur connecté. Veuillez créer d'abord vos sondages pour qu'ils puissent s'afficher ici !"
+            : "Veuillez vous connecter pour voir vos sondages existants."}
+        </div>
+      )}
+      <div className=" flex flex-wrap justify-center gap-8">
         {sondage.length === 1 ? (
           <div
             key={sondage[0].id}
             className="w-full rounded-lg overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2"
           >
             <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">
+              <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white">
                 {sondage[0].question}
               </div>
               <ul className="list-disc text-gray-700 text-base">
                 {sondage[0].options.map((option, index) => (
-                  <li key={index}>{option}</li>
+                  <li key={index}>{`${index + 1}. ${option}`}</li>
                 ))}
               </ul>
             </div>
