@@ -104,7 +104,7 @@ const Sondages = () => {
   // };
 
   return (
-    <div className="flex flex-col items-center justify-center font-sans ">
+    <div className="flex flex-col items-center justify-center font-sans h-screen">
       {(!token || sondage.length === 0) && (
         <div className="text-center text-gray-400 text-2xl font-bold">
           {token
