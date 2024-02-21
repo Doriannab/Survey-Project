@@ -4,11 +4,16 @@ import axios from 'axios';
 const SondageResults = () => {
   const [results, setResults] = useState(null);
   const sondageId = localStorage.getItem('sondageId');
+  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
+
+        if (!accessToken) {
+          console.log('Pas de Token. Impossible de voir les resultats');
+          return;
+        }
 
         const response = await axios.get(
           `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
@@ -26,11 +31,16 @@ const SondageResults = () => {
     };
 
     fetchResults();
-  }, [sondageId]);
+  }, [sondageId, accessToken]);
+
+  if (!accessToken) {
+    return <div className='text-center text-gray-400 text-2xl font-bold'>Veuillez vous connecter pour voir les résultats.</div>;
+  }
 
   if (!results) {
-    return <div>Loading...</div>;
+    return <div className='text-center text-gray-400 text-2xl font-bold'>Aucun résultat disponible pour ce sondage.</div>;
   }
+
 
   const { sondage_id, answers } = results;
 
@@ -72,7 +82,7 @@ const SondageResults = () => {
   ));
 
   return (
-    <div>
+    <div className='flex align-center text-center gap-12 justify-center h-screen flex-col'>
       <h1 className="text-2xl font-bold mb-4">Résultats du Sondage {sondage_id}</h1>
       <div className="options-container">{graphiqueOptionBar}</div>
     </div>
