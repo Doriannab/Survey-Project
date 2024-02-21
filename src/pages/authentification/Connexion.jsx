@@ -6,6 +6,7 @@ import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 
+// Composant principal
 const Connexion = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -32,14 +33,11 @@ const Connexion = () => {
           access: response.token.access,
           refresh: response.token.refresh,
         })
-      );      
-      
-      // localStorage.setItem("token", response.token.access);
+      );
+
       localStorage.setItem("user", JSON.stringify(response.user_id));
 
 
-
-      toast.success("Vous êtes à présent connecté, amusez-vous!");
       setFormData({
         email: "",
         password: "",
