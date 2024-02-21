@@ -58,9 +58,6 @@ const Navbar = () => {
           >
             Résultats
           </NavLink>
-
-          
-
           {token ? (
             <>
               <button

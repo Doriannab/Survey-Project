@@ -51,6 +51,7 @@ const ShareLink = () => {
         </p>
       )}
     </div>
+    </div>
   );
 
 };
