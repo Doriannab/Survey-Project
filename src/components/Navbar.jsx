@@ -58,15 +58,6 @@ const Navbar = () => {
           >
             Résultats
           </NavLink>
-
-          <NavLink
-            to="/share-link"
-            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
-            onClick={closeMenu}
-          >
-            Lien Sondage
-          </NavLink>
-
           {token ? (
             <>
               <button
