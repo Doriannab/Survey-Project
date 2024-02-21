@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <>
       <Toaster position="top-left" />
-      <nav className="bg-white p-4 flex items-center justify-between fixed w-full z-50">
+      <nav className="bg-white p-4 flex items-center justify-between fixed top-0 w-full z-50">
         <div>
           <NavLink to="/" onClick={closeMenu}>
             <p className="text-gray-800 text-2xl font-bold">Pulso</p>
@@ -41,17 +41,24 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-4">
           <NavLink
             to="/sondages"
-            className="text-gray-400 font-bold hover:text-gray-600"
+            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             onClick={closeMenu}
           >
             Sondages
           </NavLink>
           <NavLink
             to="/resultats"
-            className="text-gray-400 font-bold hover:text-gray-600"
+            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             onClick={closeMenu}
           >
             Résultats
+          </NavLink>
+          <NavLink
+            to="/share-link"
+            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
+            onClick={closeMenu}
+          >
+            Lien Sondage
           </NavLink>
           {token ? (
             <>
@@ -66,14 +73,14 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/connexion"
-                className="text-gray-400 font-bold hover:text-gray-600"
+                className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
                 onClick={closeMenu}
               >
                 Connexion
               </NavLink>
               <NavLink
                 to="/inscription"
-                className="text-gray-400 font-bold hover:text-gray-600"
+                className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
                 onClick={closeMenu}
               >
                 Inscription

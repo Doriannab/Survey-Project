@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Appel à l'API
 const API_BASE_URL = "https://pulso-backend.onrender.com/api/user/";
 
 // Inscrire un utilisateur
@@ -28,6 +29,22 @@ export const loginUser = async (email, password) => {
     const response = await axios.post(`${API_BASE_URL}login/`, {
       email,
       password,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw error.response.data;
+    } else {
+      throw error;
+    }
+  }
+};
+
+// Fonction pour renouveler le token
+export const refreshAccessToken = async (refreshToken) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}refresh-token/`, {
+      refresh_token: refreshToken,
     });
     return response.data;
   } catch (error) {

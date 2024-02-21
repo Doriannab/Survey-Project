@@ -4,10 +4,10 @@ import Navbar from "../components/Navbar";
 function Templates() {
   return (
     <div>
-      <heaser>
+      <header>
         <Navbar />
-      </heaser>
-      <main>
+      </header>
+      <main className="mt-16">
         <Outlet />
       </main>
     </div>
