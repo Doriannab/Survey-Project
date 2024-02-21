@@ -119,12 +119,12 @@ const Sondages = () => {
             className="w-full rounded-lg overflow-hidden shadow-lg bg-gray-200 bg-opacity-75 m-2"
           >
             <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">
+              <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white">
                 {sondage[0].question}
               </div>
               <ul className="list-disc text-gray-700 text-base">
                 {sondage[0].options.map((option, index) => (
-                  <li key={index}>{option}</li>
+                  <li key={index}>{`${index + 1}. ${option}`}</li>
                 ))}
               </ul>
             </div>
