@@ -20,7 +20,7 @@ const PageAfterVote = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-3xl font-bold mb-4">Merci d'avoir voté !</h2>
+<h2 className="text-3xl font-bold mb-4">Merci d&apos;avoir voté !</h2>
       <p className="text-lg mb-6">Vous pouvez créer un formulaire ici :</p>
       <Link
         to="/Forms"
