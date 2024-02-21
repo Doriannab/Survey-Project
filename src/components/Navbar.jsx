@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <>
       <Toaster position="top-left" />
-      <nav className="bg-white p-4 flex items-center justify-between fixed w-full z-50">
+      <nav className="bg-white p-4 flex items-center justify-between fixed top-0 w-full z-50">
         <div>
           <NavLink to="/" onClick={closeMenu}>
             <p className="text-gray-800 text-2xl font-bold">Pulso</p>
@@ -52,6 +52,13 @@ const Navbar = () => {
             onClick={closeMenu}
           >
             Résultats
+          </NavLink>
+          <NavLink
+            to="/share-link"
+            className="text-gray-400 font-bold hover:text-gray-600"
+            onClick={closeMenu}
+          >
+            Lien Sondage
           </NavLink>
           {token ? (
             <>

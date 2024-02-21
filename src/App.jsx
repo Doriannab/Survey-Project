@@ -11,7 +11,10 @@ import Templates from "./layouts/Templates";
 import Inscription from "./pages/authentification/Inscription";
 import Connexion from "./pages/authentification/Connexion";
 import Sondages from "./pages/Sondages";
-import Graphique from "./pages/Graphique";
+// import Graphique from "./pages/Graphique";
+import SondageLink from "./pages/SondageLink";
+import SondageResults from "./pages/SondageResults";
+import ShareLink from "./pages/ShareLink";
 
 function App() {
   const router = createBrowserRouter(
@@ -22,7 +25,10 @@ function App() {
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/sondages" element={<Sondages />} />
-        <Route path="/resultats" element={<Graphique />} />
+        <Route path="/sondages/:slug" element={<SondageLink />} />
+        <Route path="/sondages/resultats" element={<SondageResults />} />
+        <Route path="/resultats" element={<SondageResults />} />
+        <Route path="/share-link" element={<ShareLink />} />
       </Route>
     )
   );
