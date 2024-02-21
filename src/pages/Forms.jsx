@@ -93,6 +93,8 @@ const Forms = () => {
         lienSondagesStockes.push({ id, lien: LienSondage });
 
         localStorage.setItem(`Sondages_${userId}`, JSON.stringify(lienSondagesStockes));
+        localStorage.setItem('sondageId', id);
+
 
         dispatch(setLienSondage(LienSondage));
         toast.success(
