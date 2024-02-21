@@ -21,7 +21,7 @@ const ShareLink = () => {
   };
 
   return (
-    <div className='mt-32 flex items-center justify-center'>
+    <div className='mt-32 flex items-center justify-center h-screen'>
       {LienSondage && token ? (
         <div className="">
           <input
