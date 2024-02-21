@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useSelector } from "react-redux";
 import { selectToken } from "../components/features/AuthSlice";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { useDispatch } from 'react-redux';
 import { setLienSondage } from '../components/features/SondageSlices';
@@ -74,12 +74,38 @@ const Forms = () => {
 
       return;
     }
+
     try {
       setLoading(true);
-      await submitForm({
+      const res = await submitForm({
         question: formTitle,
         options: formFields.map((field) => field.value),
       });
+
+      if (res && res.status === 201) {
+        const { slug, id } = res.data;
+        const userId = localStorage.getItem("user");
+        const LienSondage = `http://localhost:5173/sondages/${slug}`;
+
+        const lienSondagesStockes = JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
+        
+
+        lienSondagesStockes.push({ id, lien: LienSondage });
+
+        localStorage.setItem(`Sondages_${userId}`, JSON.stringify(lienSondagesStockes));
+
+        dispatch(setLienSondage(LienSondage));
+        toast.success(
+          "Sondage créé. Vous pouvez à présent partager votre sondage !"
+        );
+        setFormTitle("");
+        setFormFields([{ type: "text", value: "", key: 0 }]);
+      }
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     } finally {
       setLoading(false);
     }
@@ -106,32 +132,13 @@ const Forms = () => {
           },
         }
       );
-  
-      if (res.status === 200 || res.status === 201) {
-        const { slug, id } = res.data;
-        const LienSondage = `https://survey-project-tau.vercel.app/sondages/${slug}`;
 
-
-        localStorage.setItem("LienSondage", LienSondage);
-        localStorage.setItem("sondageId", id);
-
-        dispatch(setLienSondage(LienSondage));
-        // console.log("Redux:", store.getState());
-
-        toast.success(
-          "Sondage créé. Vous pouvez à présent partager votre sondage !"
-        );
-        setFormTitle("");
-        setFormFields([{ type: "text", value: "", key: 0 }]);
-      }
+      return res;
     } catch (error) {
-      console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error:", error);
+      throw error;
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center h-screen font-sans">
