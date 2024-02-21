@@ -1,8 +1,9 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-const SondageLink = () => {
+const SondageVote = () => {
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [sondageDetails, setSondageDetails] = useState({
     id: null,
@@ -32,6 +33,13 @@ const SondageLink = () => {
     fetchSondageDetails();
   }, [slug]);
 
+  useEffect(() => {
+    const hasVoted = localStorage.getItem('hasVoted') === 'true';
+    if (hasVoted) {
+      navigate('/pageaftervote');
+    }
+  }, [navigate]);
+
   const handleRadioChange = (option) => {
     setSelectedOption(option);
   };
@@ -49,6 +57,8 @@ const SondageLink = () => {
 
         if (response.status === 201) {
           console.log('Vote réussi !');
+          localStorage.setItem('hasVoted', 'true');
+          navigate('/pageaftervote');
         } else {
           console.error('Erreur lors du vote');
         }
@@ -65,7 +75,7 @@ const SondageLink = () => {
   const { question, options } = sondageDetails;
 
   return (
-    <div className="text-center">
+    <div className="text-center ">
       <h1 className="text-3xl font-bold mb-4">{question}</h1>
       <ul className="list-none">
         {options.map((option, index) => (
@@ -93,4 +103,4 @@ const SondageLink = () => {
   );
 };
 
-export default SondageLink;
+export default SondageVote;
