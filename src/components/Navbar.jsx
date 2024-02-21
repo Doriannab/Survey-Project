@@ -19,6 +19,11 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+
+      localStorage.removeItem('LienSondage');
+      localStorage.removeItem('user');
+      localStorage.removeItem('sondageId');
+      
       dispatch(logout());
       toast.success("Vous n'êtes plus connecté !");
     } catch (error) {
@@ -53,6 +58,7 @@ const Navbar = () => {
           >
             Résultats
           </NavLink>
+
           <NavLink
             to="/share-link"
             className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
@@ -60,6 +66,7 @@ const Navbar = () => {
           >
             Lien Sondage
           </NavLink>
+
           {token ? (
             <>
               <button
