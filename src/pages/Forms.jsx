@@ -109,7 +109,7 @@ const Forms = () => {
   
       if (res.status === 200 || res.status === 201) {
         const { slug, id } = res.data;
-        const LienSondage = `http://localhost:5173/sondages/${slug}`;
+        const LienSondage = `https://survey-project-fvg9.vercel.app/sondages/${slug}`;
 
 
         localStorage.setItem("LienSondage", LienSondage);
@@ -137,7 +137,7 @@ const Forms = () => {
     <div className="flex items-center justify-center h-screen font-sans">
       <Toaster position="top-left" />
       <div className="absolute right-5 top-28">
-        <button className="rounded-md text-white bg-blue-500  hover:bg-blue-600 text-lg h-10 px-4 focus:outline-none focus:bg-blue-600">
+        <button onClick={() => navigate('/share-link')} className="rounded-md text-white bg-blue-500  hover:bg-blue-600 text-lg h-10 px-4 focus:outline-none focus:bg-blue-600">
           Publier
         </button>
       </div>
