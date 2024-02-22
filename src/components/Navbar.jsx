@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectToken } from "../components/features/AuthSlice";
@@ -8,6 +8,22 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Ajouter un écouteur d'événements sur le document pour fermer le menu au clic en dehors du composant
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuRef]);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -19,11 +35,10 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem("LienSondage");
+      localStorage.removeItem("user");
+      localStorage.removeItem("sondageId");
 
-      localStorage.removeItem('LienSondage');
-      localStorage.removeItem('user');
-      localStorage.removeItem('sondageId');
-      
       dispatch(logout());
       toast.success("Vous n'êtes plus connecté !");
     } catch (error) {
@@ -37,10 +52,13 @@ const Navbar = () => {
   return (
     <>
       <Toaster position="top-left" />
-      <nav className="bg-white p-4 flex items-center justify-between fixed top-0 w-full z-50">
+      <nav
+        className="bg-white p-4 flex items-center justify-between fixed top-0 font-sans w-full z-50"
+        ref={menuRef}
+      >
         <div>
           <NavLink to="/" onClick={closeMenu}>
-            <p className="text-gray-800 text-2xl font-bold">Pulso</p>
+            <p className="text-gray-600 text-2xl font-bold">Pulso</p>
           </NavLink>
         </div>
         <div className="hidden md:flex items-center space-x-4">
@@ -86,12 +104,12 @@ const Navbar = () => {
             </>
           )}
           <NavLink to="/forms" onClick={closeMenu}>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md font-bold">
               Créer un formulaire
             </button>
           </NavLink>
         </div>
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center ref={menuRef}">
           <button
             className="text-gray-800 text-3xl hover:text-gray-600 focus:outline-none"
             onClick={toggleMenu}
@@ -142,7 +160,7 @@ const Navbar = () => {
                 </>
               )}
               <NavLink to="/forms" onClick={closeMenu}>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full focus:outline-none focus:bg-blue-600">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md w-full focus:outline-none focus:bg-blue-600 font-bold">
                   Créer un formulaire
                 </button>
               </NavLink>

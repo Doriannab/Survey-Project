@@ -2,7 +2,7 @@ import Progress from "./Progress";
 
 function Graphique() {
   return (
-    <div className="flex w-full flex-col gap-0  ">
+    <div className="flex w-full flex-col gap-0 font-sans">
       <h1 className="text-center z-index  text-black text-4xl justtify-items-center mt-24 max-lg:text-4xl">
         Resultats des Sondages
       </h1>
