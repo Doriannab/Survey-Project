@@ -10,7 +10,8 @@ const ShareLink = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("user");
-    const lienSondagesStockes = JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
+    const lienSondagesStockes =
+      JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
     setLiensSondages(lienSondagesStockes);
   }, []);
 
@@ -29,7 +30,7 @@ const ShareLink = () => {
   };
 
   return (
-    <div className='mt-32 flex items-center justify-center h-screen'>
+    <div className="mt-40 font-sans">
       <div className="mt-32 flex items-center justify-center">
         <Toaster position="top-left" />
         {liensSondages.length > 0 && token ? (
@@ -60,7 +61,6 @@ const ShareLink = () => {
       </div>
     </div>
   );
-
 };
 
 export default ShareLink;

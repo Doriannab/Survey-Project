@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../components/features/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
-import { useDispatch } from 'react-redux';
-import { setLienSondage } from '../components/features/SondageSlices';
+import { useDispatch } from "react-redux";
+import { setLienSondage } from "../components/features/SondageSlices";
 
 const Forms = () => {
   const [token, setToken] = useState(useSelector(selectToken));
@@ -87,14 +87,16 @@ const Forms = () => {
         const userId = localStorage.getItem("user");
         const LienSondage = `https://survey-project-seven.vercel.app/sondages/${slug}`;
 
-        const lienSondagesStockes = JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
-        
+        const lienSondagesStockes =
+          JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
 
         lienSondagesStockes.push({ id, lien: LienSondage });
 
-        localStorage.setItem(`Sondages_${userId}`, JSON.stringify(lienSondagesStockes));
-        localStorage.setItem('sondageId', id);
-
+        localStorage.setItem(
+          `Sondages_${userId}`,
+          JSON.stringify(lienSondagesStockes)
+        );
+        localStorage.setItem("sondageId", id);
 
         dispatch(setLienSondage(LienSondage));
         toast.success(
@@ -116,14 +118,16 @@ const Forms = () => {
   const submitForm = async (formData) => {
     try {
       const owner = localStorage.getItem("user");
-  
+
       if (!owner) {
-        console.error("Utilisateur pas connecté, Impossible de créer le Sondage");
+        console.error(
+          "Utilisateur pas connecté, Impossible de créer le Sondage"
+        );
         return;
       }
-  
+
       formData.owner = owner;
-  
+
       const res = await axios.post(
         "https://pulso-backend.onrender.com/api/sondages/",
         formData,
@@ -143,14 +147,17 @@ const Forms = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen font-sans">
+    <div className="flex items-center justify-center mt-40 font-sans">
       <Toaster position="top-left" />
       <div className="absolute right-5 top-28">
-        <button onClick={() => navigate('/share-link')} className="rounded-md text-white bg-blue-500  hover:bg-blue-600 text-lg h-10 px-4 focus:outline-none focus:bg-blue-600">
+        <button
+          onClick={() => navigate("/share-link")}
+          className="rounded-md text-white bg-blue-500  hover:bg-blue-600 px-4 py-1 focus:outline-none focus:bg-blue-600 font-bold"
+        >
           Publier
         </button>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mt-20">
         <div className="mb-4">
           <textarea
             placeholder="Titre du formulaire"
@@ -196,7 +203,7 @@ const Forms = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-4 py-2 bg-black  hover:bg-gray-800 text-white rounded"
+            className="px-4 py-2 bg-black  hover:bg-gray-800 font-bold text-white rounded"
             disabled={loading}
           >
             {loading ? "Soumission..." : "Soumettre"}{" "}

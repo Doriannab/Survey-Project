@@ -23,7 +23,7 @@ const Progress = ({ bgcolor, progress, height }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative font-sans">
       <div style={Parentdiv}>
         <div style={Childdiv}>
           <span style={progresstext}>{`${progress}%`}</span>
