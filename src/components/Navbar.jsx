@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectToken } from "../components/features/AuthSlice";
@@ -8,6 +8,22 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Ajouter un écouteur d'événements sur le document pour fermer le menu au clic en dehors du composant
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuRef]);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -36,7 +52,10 @@ const Navbar = () => {
   return (
     <>
       <Toaster position="top-left" />
-      <nav className="bg-white p-4 flex items-center justify-between fixed top-0 font-sans w-full z-50">
+      <nav
+        className="bg-white p-4 flex items-center justify-between fixed top-0 font-sans w-full z-50"
+        ref={menuRef}
+      >
         <div>
           <NavLink to="/" onClick={closeMenu}>
             <p className="text-gray-600 text-2xl font-bold">Pulso</p>
@@ -90,7 +109,7 @@ const Navbar = () => {
             </button>
           </NavLink>
         </div>
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center ref={menuRef}">
           <button
             className="text-gray-800 text-3xl hover:text-gray-600 focus:outline-none"
             onClick={toggleMenu}
