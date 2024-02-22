@@ -45,7 +45,7 @@ const ShareLink = () => {
                 />
                 <button
                   onClick={() => handleCopy(lien.lien)}
-                  className="ml-2 bg-slate-600 text-white px-4 py-2 rounded"
+                  className="ml-2 bg-slate-600 text-white px-4 py-1 rounded-md"
                   disabled={isCopied}
                 >
                   {isCopied ? "Copié!" : "Copier"}
