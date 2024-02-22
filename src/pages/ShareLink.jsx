@@ -10,8 +10,8 @@ const ShareLink = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("user");
-    const storedLiensSondages = JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
-    setLiensSondages(storedLiensSondages);
+    const lienSondagesStockes = JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
+    setLiensSondages(lienSondagesStockes);
   }, []);
 
   const handleCopy = (lien) => {
