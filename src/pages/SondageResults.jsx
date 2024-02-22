@@ -91,7 +91,7 @@ const SondageResults = () => {
   ));
 
   return (
-    <div className="flex align-center text-center gap-12 justify-center h-screen flex-col">
+    <div className="flex align-center text-center gap-12 justify-center h-screen flex-col font-sans">
       <h1 className="text-2xl font-bold mb-4">
         Résultats du Sondage {sondage_id}
       </h1>

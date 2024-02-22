@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const SondageVote = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const [sondageDetails, setSondageDetails] = useState({
     id: null,
-    question: '',
+    question: "",
     options: [],
   });
   const [selectedOption, setSelectedOption] = useState(null);
@@ -25,7 +25,7 @@ const SondageVote = () => {
           options: response.data.options || [],
         });
       } catch (error) {
-        console.error('Erreur:', error);
+        console.error("Erreur:", error);
         setSondageDetails(null);
       }
     };
@@ -43,27 +43,26 @@ const SondageVote = () => {
         console.error("Veuillez sélectionner une option avant de voter.");
         return;
       }
-  
+
       const response = await axios.post(
-        'https://pulso-backend.onrender.com/api/sondages/choix/',
+        "https://pulso-backend.onrender.com/api/sondages/choix/",
         {
           choix: selectedOption,
           sondage_id: sondageDetails.id,
         }
       );
-  
+
       // Vérifier la réponse du serveur
       if (response.status === 201) {
-        console.log('Vote réussi !');
-        navigate('/pageaftervote');
+        console.log("Vote réussi !");
+        navigate("/pageaftervote");
       } else {
-        console.error('Erreur lors du vote');
+        console.error("Erreur lors du vote");
       }
     } catch (error) {
-      console.error('Erreur lors du vote:', error);
+      console.error("Erreur lors du vote:", error);
     }
   };
-  
 
   if (!sondageDetails) {
     return <div>Loading...</div>;
@@ -72,7 +71,7 @@ const SondageVote = () => {
   const { question, options } = sondageDetails;
 
   return (
-    <div className="text-center ">
+    <div className="text-center mt-40 font-sans">
       <h1 className="text-3xl font-bold mb-4">{question}</h1>
       <ul className="list-none">
         {options.map((option, index) => (

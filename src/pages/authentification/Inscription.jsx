@@ -62,7 +62,7 @@ const Inscription = () => {
   };
 
   return (
-    <div className="mt-40">
+    <div className="mt-40 font-sans">
       <Toaster position="top-left" />
       <div className="max-w-md mx-auto mt-6 p-6 bg-white shadow-lg rounded-md backdrop-filter backdrop-blur-sm">
         <h2 className="text-gray-500 text-3xl mb-6 font-bold text-center">
