@@ -30,19 +30,14 @@ const ShareLink = () => {
   };
 
   return (
-    <div className="mt-40 font-sans flex justify-center flex-col">
-      <div className="mt-32 flex items-center justify-center">
+    <div className="mt-40 font-sans flex justify-center">
+      <div>
         <Toaster position="top-left" />
         {liensSondages.length > 0 && token ? (
           <div>
             {liensSondages.map((lien, index) => (
               <div key={index} className="mb-4">
-                <input
-                  value={lien.lien}
-                  disabled
-                  className="p-3 ms-5"
-                  style={{ minWidth: "430px" }}
-                />
+                <input value={lien.lien} disabled className="p-3 ms-5" />
                 <button
                   onClick={() => handleCopy(lien.lien)}
                   className="ml-2 bg-slate-600 text-white px-4 py-1 rounded-md"
