@@ -42,7 +42,7 @@ const SondageResults = () => {
 
   if (!results) {
     return (
-      <div className="text-center text-gray-400 text-2xl font-bold">
+      <div className="text-center text-gray-400 text-2xl font-bold mt-40">
         Aucun résultat disponible pour ce sondage.
       </div>
     );
@@ -67,7 +67,10 @@ const SondageResults = () => {
   );
 
   const graphiqueOptionBar = Object.keys(pourcentageOptions).map((option) => (
-    <div key={option} className="mb-4">
+    <div
+      key={option}
+      className="mb-4 text-gray-500 font-bold hover:text-gray-600"
+    >
       <div className="flex items-center mb-2">
         <div className="w-1/4 text-right pr-4">{option}</div>
         <div className="w-1/2 bg-gray-200 h-6 rounded-full overflow-hidden">
