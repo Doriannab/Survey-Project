@@ -30,7 +30,7 @@ const ShareLink = () => {
   };
 
   return (
-    <div className="mt-40 font-sans flex flex-wrap">
+    <div className="mt-40 font-sans flex justify-center flex-wrap">
       <div className="mt-32 flex items-center justify-center">
         <Toaster position="top-left" />
         {liensSondages.length > 0 && token ? (
