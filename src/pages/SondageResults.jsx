@@ -72,7 +72,7 @@ const SondageResults = () => {
       className="mb-4 text-gray-500 font-bold hover:text-gray-600"
     >
       <div className="flex items-center mb-2">
-        <div className="w-1/4 text-right pr-4">{option}</div>
+        <div className="w-1/4 text-right pr-5">{option}</div>
         <div className="w-1/2 bg-gray-200 h-6 rounded-full overflow-hidden">
           <div
             className={`h-full bg-blue-500 ${
@@ -83,7 +83,7 @@ const SondageResults = () => {
             }}
           ></div>
         </div>
-        <div className="w-1/4 pl-4 text-gray-600">
+        <div className="pl-8 text-gray-600">
           {Math.round((pourcentageOptions[option] / totalVotes) * 100)}%
         </div>
       </div>
@@ -91,8 +91,8 @@ const SondageResults = () => {
   ));
 
   return (
-    <div className="flex align-center text-center gap-12 justify-center h-screen flex-col font-sans">
-      <h1 className="text-2xl font-bold mb-4">
+    <div className="mt-40 text-center gap-12 font-sans">
+      <h1 className="text-2xl font-bold mb-12">
         Résultats du Sondage {sondage_id}
       </h1>
       <div className="options-container">{graphiqueOptionBar}</div>
