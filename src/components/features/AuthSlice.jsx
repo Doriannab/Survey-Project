@@ -11,7 +11,7 @@ export const refreshTokenAsync = createAsyncThunk(
   async (refreshToken, { dispatch, rejectWithValue }) => {
     try {
       const response = await refreshAccessToken(refreshToken);
-      dispatch(setToken(response)); // Utilisez la même action pour mettre à jour le token
+      dispatch(setToken(response));
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
