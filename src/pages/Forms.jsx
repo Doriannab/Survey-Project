@@ -147,7 +147,7 @@ const Forms = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-40 font-sans">
+    <div className="mt-40">
       <Toaster position="top-left" />
       <div className="absolute right-5 top-28">
         <button
