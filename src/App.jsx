@@ -16,6 +16,9 @@ import SondageResults from "./pages/SondageResults";
 import ShareLink from "./pages/ShareLink";
 import SondageVote from "./pages/SondageVote";
 import PageAfterVote from "./pages/PageAfterVote";
+import ListSondages from "./pages/ListSondages";
+import AllInOne from "./pages/AllInOne";
+import Soumissions from "./pages/Soumissions";
 
 function App() {
   const router = createBrowserRouter(
@@ -26,11 +29,14 @@ function App() {
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/sondages" element={<Sondages />} />
+        <Route path="/listsondages" element={<ListSondages />} />
+        <Route path="/allinone" element={<AllInOne />} />
         <Route path="/sondages/:slug" element={<SondageVote />} />
         <Route path="/sondages/resultats" element={<SondageResults />} />
         <Route path="/resultats" element={<SondageResults />} />
         <Route path="/share-link" element={<ShareLink />} />
         <Route path="/pageaftervote" element={<PageAfterVote />} />
+        <Route path="/soumissions" element={<Soumissions />} />
       </Route>
     )
   );
