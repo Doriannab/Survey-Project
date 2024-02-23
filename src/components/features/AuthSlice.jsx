@@ -2,22 +2,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { refreshAccessToken } from "../services/AuthServices";
 
-const storedAccessToken = localStorage.getItem("accessToken");
-const storedRefreshToken = localStorage.getItem("refreshToken");
-
-// Action asynchrone pour le renouvellement du token
-export const refreshTokenAsync = createAsyncThunk(
-  "auth/refreshToken",
-  async (refreshToken, { dispatch, rejectWithValue }) => {
+// Action asynchrone pour renouveler le token
+export const refreshAccessTokenAsync = createAsyncThunk(
+  "auth/refreshAccessToken",
+  async (refreshToken, { rejectWithValue }) => {
     try {
       const response = await refreshAccessToken(refreshToken);
-      dispatch(setToken(response));
       return response;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
+
+const storedAccessToken = localStorage.getItem("accessToken");
+const storedRefreshToken = localStorage.getItem("refreshToken");
 
 export const authSlice = createSlice({
   name: "auth",
@@ -30,6 +29,7 @@ export const authSlice = createSlice({
       state.user = action.payload;
     },
     setToken: (state, action) => {
+      state.user = action.payload.user;
       state.token = action.payload.access;
       localStorage.setItem("accessToken", action.payload.access);
       localStorage.setItem("refreshToken", action.payload.refresh);
@@ -42,12 +42,18 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Ajoutez une gestionnaire pour l'action de renouvellement du token
-    builder.addCase(refreshTokenAsync.fulfilled, (state, action) => {
-      // Vous pouvez gérer les résultats du renouvellement ici si nécessaire
+    builder.addCase(refreshAccessTokenAsync.fulfilled, (state, action) => {
+      const { access, refresh, user } = action.payload;
+      state.token = access;
+      state.user = user;
+      localStorage.setItem("accessToken", access);
+      localStorage.setItem("refreshToken", refresh);
     });
-    builder.addCase(refreshTokenAsync.rejected, (state, action) => {
-      // Gérez les erreurs de renouvellement ici si nécessaire
+    builder.addCase(refreshAccessTokenAsync.rejected, (state) => {
+      state.user = null;
+      state.token = null;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     });
   },
 });
