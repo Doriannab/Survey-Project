@@ -81,7 +81,8 @@ const Forms = () => {
       if (res && res.status === 201) {
         const { slug, id } = res.data;
         const userId = localStorage.getItem("user");
-        const LienSondage = `http://localhost:5173/sondages/${slug}`;
+
+        const LienSondage = `https://survey-project-sigma.vercel.app/sondages/${slug}`;
 
         const lienSondagesStockes =
           JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
@@ -143,7 +144,7 @@ const Forms = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-40 font-sans">
+    <div className="mt-40 flex justify-center">
       <Toaster position="top-left" />
       <div className="absolute right-5 top-28">
         <button
@@ -157,7 +158,7 @@ const Forms = () => {
         <div className="mb-4">
           <textarea
             placeholder="Titre du formulaire"
-            className="w-full p-2 border-none outline-none text-4xl font-bold rounded"
+            className="w-full p-2 border-none outline-none text-4xl font-bold rounded-md"
             onKeyDown={handleTextareaSubmit}
             required
             value={formTitle}
@@ -199,7 +200,7 @@ const Forms = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-4 py-2 bg-black  hover:bg-gray-800 font-bold text-white rounded"
+            className="px-4 py-1 bg-black  hover:bg-gray-800 font-bold text-white rounded-md"
             disabled={loading}
           >
             {loading ? "Soumission..." : "Soumettre"}{" "}

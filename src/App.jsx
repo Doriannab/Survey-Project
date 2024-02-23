@@ -11,7 +11,6 @@ import Templates from "./layouts/Templates";
 import Inscription from "./pages/authentification/Inscription";
 import Connexion from "./pages/authentification/Connexion";
 import Sondages from "./pages/Sondages";
-// import Graphique from "./pages/Graphique";
 import SondageResults from "./pages/SondageResults";
 import ShareLink from "./pages/ShareLink";
 import SondageVote from "./pages/SondageVote";

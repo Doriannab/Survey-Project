@@ -28,7 +28,7 @@ const Sondages = () => {
   }, [token]);
 
   return (
-    <div className="mt-40 text-center font-sans">
+    <div className="mt-30 text-center font-sans">
       {(!token || sondage.length === 0) && (
         <div className="text-center text-gray-400 text-2xl font-bold">
           {token
