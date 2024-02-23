@@ -23,10 +23,6 @@ const Forms = () => {
   const [formTitle, setFormTitle] = useState("");
   const inputRef = useRef(null);
 
-  const [formData, setFormData] = useState({
-    question: "",
-    options: [],
-  });
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -85,6 +81,7 @@ const Forms = () => {
       if (res && res.status === 201) {
         const { slug, id } = res.data;
         const userId = localStorage.getItem("user");
+
         const LienSondage = `https://survey-project-sigma.vercel.app/sondages/${slug}`;
 
         const lienSondagesStockes =
