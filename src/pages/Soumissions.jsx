@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AllInOne from "./AllInOne";
+
+
 
 const Soumissions = () => {
   const [results, setResults] = useState(null);
@@ -42,8 +45,12 @@ const Soumissions = () => {
 
   if (!results) {
     return (
+      
+      <div>
+      <AllInOne/>
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-        Aucun résultat disponible pour ce sondage.
+        Aucun Soumissions disponible pour ce sondage.
+      </div>
       </div>
     );
   }
@@ -52,8 +59,11 @@ const Soumissions = () => {
   
   if (!Array.isArray(answers)) {
     return (
+      <div>
+      <AllInOne/>
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
         Les résultats du sondage ne sont pas disponibles sous un format valide.
+      </div>
       </div>
     );
   }
@@ -67,6 +77,8 @@ const Soumissions = () => {
   
 
   return (
+    <div>
+    <AllInOne/>
     <div className="flex align-center text-center gap-12 justify-center mt-36 flex-col font-sans">
       <h1 className="text-2xl font-bold mb-4">
         Soumissions du Sondage {sondage_id}
@@ -80,6 +92,7 @@ const Soumissions = () => {
         </thead>
         <tbody>{tableRows}</tbody>
       </table>
+    </div>
     </div>
   );
 };

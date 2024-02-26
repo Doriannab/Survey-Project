@@ -31,12 +31,14 @@ function App() {
         <Route path="/listsondages" element={<ListSondages />} />
         <Route path="/allinone" element={<AllInOne />} />
         <Route path="/sondages/:slug" element={<SondageVote />} />
-        <Route path="/sondages/resultats" element={<SondageResults />} />
         <Route path="/resultats" element={<SondageResults />} />
         <Route path="/share-link" element={<ShareLink />} />
         <Route path="/pageaftervote" element={<PageAfterVote />} />
         <Route path="/soumissions" element={<Soumissions />} />
+        <Route path="/sondages/resultats" element={<SondageResults />} />
       </Route>
+
+      
     )
   );
   return <RouterProvider router={router} />;
