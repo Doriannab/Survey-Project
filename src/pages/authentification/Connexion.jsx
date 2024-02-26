@@ -90,11 +90,11 @@ const Connexion = () => {
           <button
             type="submit"
             className={`w-full font-bold ${
-              loading ? "bg-gray-500" : "bg-blue-500"
+              loading ? "bg-gray-600" : "bg-blue-500"
             } text-white py-1 mt-4 px-4 rounded-md hover:${
-              loading ? "bg-gray-500" : "bg-blue-600"
+              loading ? "bg-gray-600" : "bg-blue-600"
             } focus:outline-none focus:${
-              loading ? "bg-gray-500" : "bg-blue-600"
+              loading ? "bg-gray-600" : "bg-blue-600"
             }`}
             disabled={loading}
           >
