@@ -23,6 +23,7 @@ export const authSlice = createSlice({
   initialState: {
     user: null,
     token: storedAccessToken ? storedAccessToken : null,
+    expiry: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -31,12 +32,14 @@ export const authSlice = createSlice({
     setToken: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.access;
+      state.expiry = action.payload.expiry;
       localStorage.setItem("accessToken", action.payload.access);
       localStorage.setItem("refreshToken", action.payload.refresh);
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.expiry = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     },
@@ -46,12 +49,14 @@ export const authSlice = createSlice({
       const { access, refresh, user } = action.payload;
       state.token = access;
       state.user = user;
+      state.expiry = action.payload.expiry;
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
     });
     builder.addCase(refreshAccessTokenAsync.rejected, (state) => {
       state.user = null;
       state.token = null;
+      state.expiry = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     });
@@ -62,5 +67,6 @@ export const { setUser, setToken, logout } = authSlice.actions;
 
 export const selectUser = (state) => state.auth.user;
 export const selectToken = (state) => state.auth.token;
+export const selectTokenExpiry = (state) => state.auth.expiry;
 
 export default authSlice.reducer;

@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import UpdateIcon from "@mui/icons-material/Update";
-import { useSelector } from "react-redux";
-import { selectToken } from "../components/features/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  refreshAccessTokenAsync,
+  selectToken,
+} from "../components/features/AuthSlice";
 
 const Sondages = () => {
   const [sondage, setSondages] = useState([]);
@@ -12,26 +15,42 @@ const Sondages = () => {
   // const [updatedOptions, setUpdatedOptions] = useState("");
   // const token = localStorage.getItem("token");
   const token = useSelector(selectToken);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token) {
-      axios
-        .get("https://pulso-backend.onrender.com/api/sondages/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          const userSondages = response.data.filter((survey) => {
-            return survey.owner === parseInt(localStorage.getItem("user"));
-          });
-          setSondages(userSondages);
-        })
-        .catch((error) => {
-          console.error("Error fetching surveys:", error);
-        });
-    }
-  }, [token]);
+    const fetchData = async () => {
+      try {
+        if (token) {
+          axios
+            .get("https://pulso-backend.onrender.com/api/sondages/", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              const userSondages = response.data.filter((survey) => {
+                return survey.owner === parseInt(localStorage.getItem("user"));
+              });
+              setSondages(userSondages);
+            })
+            .catch((error) => {
+              if (axios.isAxiosError(error) && error.response?.status === 401) {
+                console.log("Unauthorized error, refreshing token...");
+                dispatch(
+                  refreshAccessTokenAsync(localStorage.getItem("refreshToken"))
+                );
+              } else {
+                console.error("Error fetching surveys:", error);
+              }
+            });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [token, dispatch]);
 
   // const handleDelete = async (surveyId) => {
   //   try {

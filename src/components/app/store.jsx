@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/AuthSlice";
-import sondageReducer from '../features/SondageSlices';
+import sondageReducer from "../features/SondageSlices";
 
 const store = configureStore({
   reducer: {
@@ -8,6 +8,5 @@ const store = configureStore({
     sondage: sondageReducer,
   },
 });
-
 
 export default store;
