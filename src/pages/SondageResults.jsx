@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AllInOne from "./AllInOne";
 
 const SondageResults = () => {
   const [results, setResults] = useState(null);
@@ -34,16 +35,22 @@ const SondageResults = () => {
 
   if (!accessToken) {
     return (
+      <div>
+      <AllInOne/>
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
         Veuillez vous connecter pour voir les résultats.
+      </div>
       </div>
     );
   }
 
   if (!results) {
     return (
+      <div>
+      <AllInOne/>
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
         Aucun résultat disponible pour ce sondage.
+      </div>
       </div>
     );
   }
@@ -91,11 +98,14 @@ const SondageResults = () => {
   ));
 
   return (
+    <div>
+    <AllInOne/>
     <div className="mt-40 text-center gap-12 font-sans">
       <h1 className="text-2xl font-bold mb-12">
         Résultats du Sondage {sondage_id}
       </h1>
       <div className="options-container">{graphiqueOptionBar}</div>
+    </div>
     </div>
   );
 };
