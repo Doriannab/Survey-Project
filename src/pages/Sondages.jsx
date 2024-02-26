@@ -7,8 +7,10 @@ import {
   refreshAccessTokenAsync,
   selectToken,
 } from "../components/features/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const Sondages = () => {
+  const navigate = useNavigate();
   const [sondage, setSondages] = useState([]);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -49,12 +51,8 @@ const Sondages = () => {
   }, [token, dispatch]);
 
   const handleClick = () => {
-
-    navigate('/allinone');
+    navigate("/allinone");
   };
-
-
-  
 
   return (
     <div className="mt-30 text-center font-sans">
