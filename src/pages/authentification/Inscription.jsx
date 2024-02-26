@@ -1,7 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../components/services/AuthServices";
+import {
+  checkEmailExists,
+  registerUser,
+} from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,6 +34,15 @@ const Inscription = () => {
 
     try {
       setLoading(true);
+
+      const emailExistsResponse = await checkEmailExists(formData.email);
+      if (emailExistsResponse && emailExistsResponse.exists) {
+        toast.warning(
+          "Cet email existe déjà. Veuillez utiliser un autre email."
+        );
+        return;
+      }
+
       const response = await registerUser(
         formData.email,
         formData.password,
@@ -38,6 +50,7 @@ const Inscription = () => {
         formData.name,
         formData.tc
       );
+
       dispatch(setUser(response.user));
       dispatch(setToken(response.token));
       setFormData({
