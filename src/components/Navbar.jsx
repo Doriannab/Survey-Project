@@ -61,7 +61,7 @@ const Navbar = () => {
           {token ? (
             <>
               <NavLink
-                to="/listsondages"
+                to="/sondages"
                 className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
                 onClick={closeMenu}
               >
@@ -107,13 +107,6 @@ const Navbar = () => {
           </button>
           {isMenuOpen && (
             <div className="absolute top-16 text-2xl right-0 bg-white p-4 border shadow-md w-screen md:w-auto">
-              <NavLink
-                to="/resultats"
-                className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
-                onClick={closeMenu}
-              >
-                Résultats
-              </NavLink>
               {token ? (
                 <>
                   <NavLink
