@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectToken } from "../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
+import AllInOne from "./AllInOne";
 
 const ShareLink = () => {
   const token = useSelector(selectToken);
@@ -30,6 +31,8 @@ const ShareLink = () => {
   };
 
   return (
+    <div>
+    <AllInOne/>
     <div className="mt-40 font-sans flex justify-center">
       <div>
         <Toaster position="top-left" />
@@ -54,6 +57,7 @@ const ShareLink = () => {
           </p>
         )}
       </div>
+    </div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const Connexion = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Soumission du formulaire pour connecter un utilisateur
+  // Soumission du formulaire pour connecter un utilisateur   
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
