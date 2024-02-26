@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectToken } from "../components/features/AuthSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const Sondages = () => {
   const [sondage, setSondages] = useState([]);
   const token = useSelector(selectToken);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -26,6 +29,14 @@ const Sondages = () => {
         });
     }
   }, [token]);
+
+  const handleClick = () => {
+
+    navigate('/allinone');
+  };
+
+
+  
 
   return (
     <div className="mt-30 text-center font-sans">
@@ -59,6 +70,7 @@ const Sondages = () => {
             <div
               key={survey.id}
               className="rounded-lg overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
+              onClick={handleClick}
             >
               <div className="py-4">
                 <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
