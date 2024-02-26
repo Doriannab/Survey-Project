@@ -63,18 +63,11 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex items-center space-x-4">
           <NavLink
-            to="/sondages"
+            to="/listsondages"
             className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             onClick={closeMenu}
           >
             Sondages
-          </NavLink>
-          <NavLink
-            to="/resultats"
-            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
-            onClick={closeMenu}
-          >
-            Résultats
           </NavLink>
           {token ? (
             <>
