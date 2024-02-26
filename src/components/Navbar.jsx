@@ -35,10 +35,6 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem("LienSondage");
-      localStorage.removeItem("user");
-      localStorage.removeItem("sondageId");
-
       dispatch(logout());
       toast.success("Vous n'êtes plus connecté !");
     } catch (error) {
@@ -62,15 +58,15 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className="hidden md:flex items-center space-x-4">
-          <NavLink
-            to="/listsondages"
-            className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
-            onClick={closeMenu}
-          >
-            Sondages
-          </NavLink>
           {token ? (
             <>
+              <NavLink
+                to="/listsondages"
+                className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
+                onClick={closeMenu}
+              >
+                Sondages
+              </NavLink>
               <button
                 className="text-gray-400 font-bold hover:text-gray-600"
                 onClick={handleLogout}
@@ -112,13 +108,6 @@ const Navbar = () => {
           {isMenuOpen && (
             <div className="absolute top-16 text-2xl right-0 bg-white p-4 border shadow-md w-screen md:w-auto">
               <NavLink
-                to="/sondages"
-                className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
-                onClick={closeMenu}
-              >
-                Sondages
-              </NavLink>
-              <NavLink
                 to="/resultats"
                 className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
                 onClick={closeMenu}
@@ -127,6 +116,13 @@ const Navbar = () => {
               </NavLink>
               {token ? (
                 <>
+                  <NavLink
+                    to="/sondages"
+                    className="block text-gray-400 font-bold hover:text-gray-600 mb-2 text-center"
+                    onClick={closeMenu}
+                  >
+                    Sondages
+                  </NavLink>
                   <button
                     className="text-gray-400 font-bold hover:text-gray-600 w-full mb-2 text-center"
                     onClick={handleLogout}
