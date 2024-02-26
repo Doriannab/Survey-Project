@@ -46,7 +46,7 @@ const Soumissions = () => {
   if (!results) {
     return (
       
-      <div>
+      <div className="">
       <AllInOne/>
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
         Aucun Soumissions disponible pour ce sondage.
