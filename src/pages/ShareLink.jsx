@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import { Toaster, toast } from "sonner";
 import AllInOne from "./AllInOne";
+import { useParams } from "react-router-dom";
 
 const ShareLink = () => {
   const token = useSelector(selectToken);
   const userId = useSelector(selectUserId);
   const liensSondages = useSelector(selectLienSondageStockes);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const { sondageId } = useParams();
 
+  useEffect(() => {
+    console.log("Current sondageId:", sondageId);
+  }, [sondageId]);
 
-
-  const userLiensSondages = liensSondages.filter(lien => lien.owner === userId);
+  const userLiensSondages = liensSondages.filter((lien) => lien.owner == userId && lien.sondageId == sondageId);
 
   const handleCopy = (lien, index) => {
     if (lien && token) {
@@ -31,37 +35,39 @@ const ShareLink = () => {
 
   return (
     <div>
-    <AllInOne/>
-    <div className="mt-40 font-sans">
-      <div className="mt-32 flex items-center justify-center">
-        <Toaster position="top-left" />
-        {userLiensSondages.length > 0 && token ? (
-          <div>
-            {userLiensSondages.map((lien, index) => (
-              <div key={index} className="mb-4">
-                <input
-                  value={lien.lien}
-                  disabled
-                  className="p-3 ms-5"
-                  style={{ minWidth: "430px" }}
-                />
-                <button
-                  onClick={() => handleCopy(lien.lien, index)}
-                  className={`ml-2 bg-slate-600 text-white px-4 py-1 rounded-md ${copiedIndex === index ? "opacity-50" : ""}`}
-                  disabled={copiedIndex !== null}
-                >
-                  {copiedIndex === index ? "Copié!" : "Copier"}
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-400 text-2xl font-bold">
-            Pas de lien disponible. Créez un sondage ou connectez-vous.
-          </p>
-        )}
+      <AllInOne />
+      <div className="mt-40 font-sans">
+        <div className="mt-32 flex items-center justify-center">
+          <Toaster position="top-left" />
+          {userLiensSondages.length > 0 && token ? (
+            <div>
+              {userLiensSondages.map((lien, index) => (
+                <div key={index} className="mb-4">
+                  <input
+                    value={lien.lien}
+                    disabled
+                    className="p-3 ms-5"
+                    style={{ minWidth: "430px" }}
+                  />
+                  <button
+                    onClick={() => handleCopy(lien.lien, index)}
+                    className={`ml-2 bg-slate-600 text-white px-4 py-1 rounded-md ${
+                      copiedIndex === index ? "opacity-50" : ""
+                    }`}
+                    disabled={copiedIndex !== null}
+                  >
+                    {copiedIndex === index ? "Copié!" : "Copier"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-400 text-2xl font-bold">
+              Pas de lien disponible. Créez un sondage ou connectez-vous.
+            </p>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

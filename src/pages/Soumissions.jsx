@@ -1,102 +1,99 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { selectToken } from "../components/features/AuthSlice";
+import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import { useSelector } from "react-redux";
-import { selectSondageId } from "../components/features/SondageSlices";
+import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import AllInOne from "./AllInOne";
+import { useParams } from 'react-router-dom';
 
 const Soumissions = () => {
-  const [submissionsBySondageId, setSubmissionsBySondageId] = useState({});
-  const sondageIdsFromRedux = useSelector(selectSondageId);
+  const [soumissions, setSoumissions] = useState([]);
   const token = useSelector(selectToken);
+  const user_id = useSelector(selectUserId);
+  const lienSondagesStockes = useSelector(selectLienSondageStockes);
 
+  const { sondageId } = useParams();
+  console.log("ID du Sondage :", sondageId);
+  
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        if (!token || !sondageIdsFromRedux || sondageIdsFromRedux.length === 0) {
-          console.log("Pas de Token ou de sondageId. Impossible de voir les soumissions");
+        if (!token || !sondageId) {
+          console.log("Pas de Token ou d'ID de sondage. Impossible de voir les soumissions");
           return;
         }
-
-        const submissionsData = {};
-
-        await Promise.all(
-          sondageIdsFromRedux.map(async (sondageId) => {
-            const response = await axios.get(
-              `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-            submissionsData[sondageId] = response.data.answers;
-          })
+  
+        const sondage = lienSondagesStockes.find(s => s.sondageId == sondageId);
+  
+        if (!sondage || sondage.owner !== user_id) {
+          console.log("Sondage non trouvé ou non autorisé");
+          return;
+        }
+  
+        const response = await axios.get(
+          `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-
-        setSubmissionsBySondageId(submissionsData);
+  
+        setSoumissions(response.data.answers);
       } catch (error) {
         console.error("Erreur:", error);
       }
     };
-
+  
     fetchSubmissions();
-  }, [sondageIdsFromRedux, token]);
+  }, [sondageId, token, user_id, lienSondagesStockes]);
 
   if (!token) {
     return (
-      <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-        Veuillez vous connecter pour voir les soumissions.
+      <div>
+        <AllInOne />
+        <div className="text-center text-gray-400 text-2xl font-bold mt-40">
+          Veuillez vous connecter pour voir les soumissions.
+        </div>
       </div>
     );
   }
 
-  if (Object.keys(submissionsBySondageId).length === 0) {
+  if (soumissions.length === 0) {
     return (
       <div>
-      <AllInOne />
-      <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-        Aucune soumission disponible pour ces sondages.
+        <AllInOne />
+        <div className="text-center text-gray-400 text-2xl font-bold mt-40">
+          Aucune soumission disponible pour ce sondage.
+        </div>
       </div>
-      </div>
-
     );
   }
 
-  const tables = Object.entries(submissionsBySondageId).map(([sondageId, submissions]) => {
-    const tableRows = submissions.map((submission, index) => (
-      <tr key={index}>
-        <td className="border-t border-r border-gray-300 py-2 px-4">{submission.created_at}</td>
-        <td className="border-t border-r border-gray-300 py-2 px-4">{submission.choix}</td>
-      </tr>
-    ));
+  const tableRows = soumissions.map((submission, index) => (
+    <tr key={index}>
+      <td className="border-t border-r border-gray-300 py-2 px-4">{submission.created_at}</td>
+      <td className="border-t border-r border-gray-300 py-2 px-4">{submission.choix}</td>
+    </tr>
+  ));
 
-    return (
-      <>
+  return (
+    <div className="flex align-center text-center gap-12 justify-center mb-12 flex-col">
       <AllInOne />
-      <div className="flex align-center text-center gap-12 justify-center mb-12 flex-col">
-       <div key={sondageId}>
-        <h1 className="text-2xl font-bold mb-4">
-          Soumissions du Sondage {sondageId}
-        </h1>
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b border-r">Created At</th>
-              <th className="py-2 px-4 border-b">Choix</th>
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </table>
-      </div>
-      </div>
-      </>
-     
-    );
-  });
-
-  return <div>{tables}</div>;
+      <h1 className="text-2xl font-bold mb-4">
+        Soumissions du Sondage {sondageId}
+      </h1>
+      <table className="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b border-r">Created At</th>
+            <th className="py-2 px-4 border-b">Choix</th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    </div>
+  );
 };
 
 export default Soumissions;

@@ -29,13 +29,12 @@ function App() {
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/sondages" element={<Sondages />} />
         <Route path="/listsondages" element={<ListSondages />} />
-        <Route path="/allinone" element={<AllInOne />} />
+        <Route path="/allinone/:sondageId" element={<AllInOne />} />
         <Route path="/sondages/:slug" element={<SondageVote />} />
-        <Route path="/resultats" element={<SondageResults />} />
-        <Route path="/share-link" element={<ShareLink />} />
+        <Route path="/resultats/:sondageId" element={<SondageResults />} />
+        <Route path="/share-link/:sondageId" element={<ShareLink />} />
         <Route path="/pageaftervote" element={<PageAfterVote />} />
-        <Route path="/soumissions" element={<Soumissions />} />
-        <Route path="/sondages/resultats" element={<SondageResults />} />
+        <Route path="/soumissions/:sondageId" element={<Soumissions />} />
       </Route>
 
       

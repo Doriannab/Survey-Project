@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { selectToken } from "../components/features/AuthSlice";
-import { selectUserId } from "../components/features/AuthSlice";
+import { selectToken, selectUserId } from "../components/features/AuthSlice";
+import { useNavigate } from "react-router";
+import { selectLienSondageStockes } from "../components/features/SondageSlices";
 
 const Sondages = () => {
   const [sondages, setSondages] = useState([]);
   const token = useSelector(selectToken);
   const userId = useSelector(selectUserId);
-
+  const navigate = useNavigate();
+  const lienSondagesStockes = useSelector(selectLienSondageStockes);
 
   useEffect(() => {
     if (token) {
@@ -22,13 +24,24 @@ const Sondages = () => {
           const userSondages = response.data.filter((survey) => {
             return survey.owner === parseInt(userId);
           });
+
+          const filteredSondageIds = lienSondagesStockes
+            .filter((s) => userSondages.map((sondage) => sondage.id).includes(s.sondageId))
+            .map((s) => s.sondageId);
+
+          console.log("Sondage Ids:", filteredSondageIds);
+
           setSondages(userSondages);
         })
         .catch((error) => {
           console.error("Error fetching surveys:", error);
         });
     }
-  }, [token, userId]);
+  }, [token, userId, lienSondagesStockes]);
+
+  const handleClick = (sondageId) => {
+    navigate(`/resultats/${sondageId}`);
+  };
 
   return (
     <div className="mt-40 text-center font-sans">
@@ -61,6 +74,7 @@ const Sondages = () => {
             <div
               key={survey.id}
               className="rounded-lg overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
+              onClick={() => handleClick(survey.id)}
             >
               <div className="py-4">
                 <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
