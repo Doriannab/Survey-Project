@@ -53,12 +53,13 @@ export const authSlice = createSlice({
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
     });
-    builder.addCase(refreshAccessTokenAsync.rejected, (state) => {
+    builder.addCase(refreshAccessTokenAsync.rejected, (state, action) => {
       state.user = null;
       state.token = null;
       state.expiry = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      throw action.error;
     });
   },
 });
