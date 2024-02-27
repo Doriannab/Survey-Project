@@ -1,28 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectToken } from "../components/features/AuthSlice";
+import { selectToken, selectUserId } from "../components/features/AuthSlice";
+import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import { Toaster, toast } from "sonner";
 import AllInOne from "./AllInOne";
 
 const ShareLink = () => {
   const token = useSelector(selectToken);
-  const [liensSondages, setLiensSondages] = useState([]);
-  const [isCopied, setIsCopied] = useState(false);
+  const userId = useSelector(selectUserId);
+  const liensSondages = useSelector(selectLienSondageStockes);
+  const [copiedIndex, setCopiedIndex] = useState(null);
 
-  useEffect(() => {
-    const userId = localStorage.getItem("user");
-    const lienSondagesStockes =
-      JSON.parse(localStorage.getItem(`Sondages_${userId}`)) || [];
-    setLiensSondages(lienSondagesStockes);
-  }, []);
 
-  const handleCopy = (lien) => {
+
+  const userLiensSondages = liensSondages.filter(lien => lien.owner === userId);
+
+  const handleCopy = (lien, index) => {
     if (lien && token) {
       navigator.clipboard.writeText(lien);
-      setIsCopied(true);
+      setCopiedIndex(index);
       toast.success("Lien copié!");
       setTimeout(() => {
-        setIsCopied(false);
+        setCopiedIndex(null);
       }, 1500);
     } else {
       console.error("Utilisateur pas authentifié ou pas de lien disponible");
@@ -33,20 +32,25 @@ const ShareLink = () => {
   return (
     <div>
     <AllInOne/>
-    <div className="mt-40 font-sans flex justify-center">
-      <div>
+    <div className="mt-40 font-sans">
+      <div className="mt-32 flex items-center justify-center">
         <Toaster position="top-left" />
-        {liensSondages.length > 0 && token ? (
+        {userLiensSondages.length > 0 && token ? (
           <div>
-            {liensSondages.map((lien, index) => (
+            {userLiensSondages.map((lien, index) => (
               <div key={index} className="mb-4">
-                <input value={lien.lien} disabled className="p-3 ms-5" />
+                <input
+                  value={lien.lien}
+                  disabled
+                  className="p-3 ms-5"
+                  style={{ minWidth: "430px" }}
+                />
                 <button
-                  onClick={() => handleCopy(lien.lien)}
-                  className="ml-2 bg-slate-600 text-white px-4 py-1 rounded-md"
-                  disabled={isCopied}
+                  onClick={() => handleCopy(lien.lien, index)}
+                  className={`ml-2 bg-slate-600 text-white px-4 py-1 rounded-md ${copiedIndex === index ? "opacity-50" : ""}`}
+                  disabled={copiedIndex !== null}
                 >
-                  {isCopied ? "Copié!" : "Copier"}
+                  {copiedIndex === index ? "Copié!" : "Copier"}
                 </button>
               </div>
             ))}

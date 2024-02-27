@@ -1,88 +1,84 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { selectToken } from "../components/features/AuthSlice";
+import { useSelector } from "react-redux";
+import { selectSondageId } from "../components/features/SondageSlices";
 import AllInOne from "./AllInOne";
 
 const Soumissions = () => {
-  const [results, setResults] = useState(null);
-  const sondageId = localStorage.getItem("sondageId");
-  const accessToken = localStorage.getItem("accessToken");
+  const [submissionsBySondageId, setSubmissionsBySondageId] = useState({});
+  const sondageIdsFromRedux = useSelector(selectSondageId);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
-    const fetchResults = async () => {
+    const fetchSubmissions = async () => {
       try {
-        if (!accessToken) {
-          console.log("Pas de Token. Impossible de voir les résultats");
+        if (!token || !sondageIdsFromRedux || sondageIdsFromRedux.length === 0) {
+          console.log("Pas de Token ou de sondageId. Impossible de voir les soumissions");
           return;
         }
 
-        const response = await axios.get(
-          `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+        const submissionsData = {};
+
+        await Promise.all(
+          sondageIdsFromRedux.map(async (sondageId) => {
+            const response = await axios.get(
+              `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            submissionsData[sondageId] = response.data.answers;
+          })
         );
 
-        setResults(response.data);
+        setSubmissionsBySondageId(submissionsData);
       } catch (error) {
         console.error("Erreur:", error);
       }
     };
 
-    fetchResults();
-  }, [sondageId, accessToken]);
+    fetchSubmissions();
+  }, [sondageIdsFromRedux, token]);
 
-  if (!accessToken) {
+  if (!token) {
     return (
       <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-        Veuillez vous connecter pour voir les résultats.
+        Veuillez vous connecter pour voir les soumissions.
       </div>
     );
   }
 
-  if (!results) {
+  if (Object.keys(submissionsBySondageId).length === 0) {
     return (
       <div>
-        <AllInOne />
-        <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-          Aucune soumission disponible pour ce sondage.
-        </div>
-      </div>
-    );
-  }
-
-  const { sondage_id, answers } = results;
-
-  if (!Array.isArray(answers)) {
-    return (
-      <div>
-        <AllInOne />
-        <div className="text-center text-gray-400 text-2xl font-bold mt-40">
-          Les résultats du sondage ne sont pas disponibles sous un format
-          valide.
-        </div>
-      </div>
-    );
-  }
-
-  const tableRows = answers.map((answer, index) => (
-    <tr key={index}>
-      <td className="border-t border-r border-gray-300 py-2 px-4">
-        {answer.created_at}
-      </td>
-      <td className="border-t border-r border-gray-300 py-2 px-4">
-        {answer.choix}
-      </td>
-    </tr>
-  ));
-
-  return (
-    <div>
       <AllInOne />
-      <div className="flex align-center text-center gap-12 justify-center mt-36 flex-col font-sans">
+      <div className="text-center text-gray-400 text-2xl font-bold mt-40">
+        Aucune soumission disponible pour ces sondages.
+      </div>
+      </div>
+
+    );
+  }
+
+  const tables = Object.entries(submissionsBySondageId).map(([sondageId, submissions]) => {
+    const tableRows = submissions.map((submission, index) => (
+      <tr key={index}>
+        <td className="border-t border-r border-gray-300 py-2 px-4">{submission.created_at}</td>
+        <td className="border-t border-r border-gray-300 py-2 px-4">{submission.choix}</td>
+      </tr>
+    ));
+
+    return (
+      <>
+      <AllInOne />
+      <div className="flex align-center text-center gap-12 justify-center mb-12 flex-col">
+       <div key={sondageId}>
         <h1 className="text-2xl font-bold mb-4">
-          Soumissions du Sondage {sondage_id}
+          Soumissions du Sondage {sondageId}
         </h1>
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
@@ -94,8 +90,13 @@ const Soumissions = () => {
           <tbody>{tableRows}</tbody>
         </table>
       </div>
-    </div>
-  );
+      </div>
+      </>
+     
+    );
+  });
+
+  return <div>{tables}</div>;
 };
 
 export default Soumissions;

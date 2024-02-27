@@ -1,72 +1,58 @@
-/* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { refreshAccessToken } from "../services/AuthServices";
 
-// Action asynchrone pour renouveler le token
-export const refreshAccessTokenAsync = createAsyncThunk(
-  "auth/refreshAccessToken",
-  async (refreshToken, { rejectWithValue }) => {
+export const refreshTokenAsync = createAsyncThunk(
+  "auth/refreshToken",
+  async (refreshToken, { dispatch, rejectWithValue }) => {
     try {
       const response = await refreshAccessToken(refreshToken);
+      dispatch(setToken(response)); 
       return response;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-const storedAccessToken = localStorage.getItem("accessToken");
-const storedRefreshToken = localStorage.getItem("refreshToken");
+const initialState = {
+  user: null,
+  user_id: null, 
+  token: null,
+};
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: null,
-    token: storedAccessToken ? storedAccessToken : null,
-    expiry: null,
-  },
+  initialState,
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+      state.user_id = action.payload ? action.payload.user_id : null; 
     },
     setToken: (state, action) => {
       state.user = action.payload.user;
+      state.user_id = action.payload.user_id; 
       state.token = action.payload.access;
-      state.expiry = action.payload.expiry;
-      localStorage.setItem("accessToken", action.payload.access);
-      localStorage.setItem("refreshToken", action.payload.refresh);
     },
     logout: (state) => {
       state.user = null;
+      state.user_id = null; 
       state.token = null;
-      state.expiry = null;
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(refreshAccessTokenAsync.fulfilled, (state, action) => {
-      const { access, refresh, user } = action.payload;
-      state.token = access;
-      state.user = user;
-      state.expiry = action.payload.expiry;
-      localStorage.setItem("accessToken", access);
-      localStorage.setItem("refreshToken", refresh);
-    });
-    builder.addCase(refreshAccessTokenAsync.rejected, (state) => {
-      state.user = null;
-      state.token = null;
-      state.expiry = null;
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-    });
   },
 });
 
+const persistConfig = {
+  key: 'auth',
+  storage,
+};
+
+export const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
+
 export const { setUser, setToken, logout } = authSlice.actions;
-
 export const selectUser = (state) => state.auth.user;
+export const selectUserId = (state) => state.auth.user_id; 
 export const selectToken = (state) => state.auth.token;
-export const selectTokenExpiry = (state) => state.auth.expiry;
 
-export default authSlice.reducer;
+export default persistedAuthReducer;
