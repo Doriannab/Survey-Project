@@ -8,7 +8,7 @@ const AllInOne = () => {
           <li>
             <Link
               to="/sondages/resultats"
-              className="text-gray-400 font-bold hover:text-red-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Résultats
             </Link>
@@ -16,7 +16,7 @@ const AllInOne = () => {
           <li>
             <Link
               to="/soumissions"
-              className="text-gray-400 font-bold hover:text-green-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Soumissions
             </Link>
@@ -24,7 +24,7 @@ const AllInOne = () => {
           <li>
             <Link
               to="/share-link"
-              className="text-gray-400 font-bold hover:text-blue-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Liens
             </Link>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectToken } from "../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
@@ -9,6 +9,7 @@ const Navbar = () => {
   const token = useSelector(selectToken);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   // Ajouter un écouteur d'événements sur le document pour fermer le menu au clic en dehors du composant
   useEffect(() => {
@@ -36,7 +37,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       dispatch(logout());
-      toast.success("Vous n'êtes plus connecté !");
+      navigate("/forms");
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
       toast.warning(
