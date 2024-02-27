@@ -1,9 +1,12 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import axios from "axios";
+
 import { useSelector } from "react-redux";
 import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import { useNavigate } from "react-router";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
+
 
 const Sondages = () => {
   const [sondages, setSondages] = useState([]);
@@ -31,6 +34,45 @@ const Sondages = () => {
 
           console.log("Sondage Ids:", filteredSondageIds);
 
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token) {
+          axios
+            .get("https://pulso-backend.onrender.com/api/sondages/", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              const userSondages = response.data.filter((survey) => {
+                return survey.owner === parseInt(localStorage.getItem("user"));
+              });
+              setSondages(userSondages);
+              setLoading(false);
+            })
+            .catch((error) => {
+              if (axios.isAxiosError(error) && error.response?.status === 401) {
+                console.log("Unauthorized error, refreshing token...");
+                dispatch(
+                  refreshAccessTokenAsync(localStorage.getItem("refreshToken"))
+                );
+              } else {
+                console.error("Error fetching surveys:", error);
+                setLoading(false);
+              }
+            });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        setLoading(false);
+      }
+    };
+
+
           setSondages(userSondages);
         })
         .catch((error) => {
@@ -44,6 +86,7 @@ const Sondages = () => {
   };
 
   return (
+
     <div className="mt-40 text-center font-sans">
       {(!token || sondages.length === 0) && (
         <div className="text-center text-gray-400 text-2xl font-bold">
@@ -75,21 +118,41 @@ const Sondages = () => {
               key={survey.id}
               className="rounded-lg overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
               onClick={() => handleClick(survey.id)}
+
             >
-              <div className="py-4">
-                <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
-                  {survey.question}
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white">
+                  {sondage[0].question}
                 </div>
-                <ol className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
-                  {survey.options.map((option, index) => (
+                <ul className="list-disc text-gray-700 text-base">
+                  {sondage[0].options.map((option, index) => (
                     <li key={index}>{`${index + 1}. ${option}`}</li>
                   ))}
-                </ol>
+                </ul>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ) : (
+            sondage.map((survey) => (
+              <div
+                key={survey.id}
+                className="rounded-lg overflow-hidden shadow-lg bg-white m-2 w-72 text-center"
+                onClick={handleClick}
+              >
+                <div className="py-4">
+                  <div className="font-bold text-xl mb-2 py-3 bg-slate-500 text-white ">
+                    {survey.question}
+                  </div>
+                  <ol className=" text-gray-400 font-bold hover:text-gray-600 text-start px-5">
+                    {survey.options.map((option, index) => (
+                      <li key={index}>{`${index + 1}. ${option}`}</li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };
