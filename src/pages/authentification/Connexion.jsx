@@ -1,14 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  checkEmailExists,
-  loginUser,
-} from "../../components/services/AuthServices";
+import { loginUser } from "../../components/services/AuthServices";
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+
 
 // Composant principal
 const Connexion = () => {
@@ -30,28 +28,17 @@ const Connexion = () => {
     e.preventDefault();
     try {
       setLoading(true);
-
-      // Vérifiez si l'e-mail existe déjà
-      const emailExistsResponse = await checkEmailExists(formData.email);
-
-      if (!emailExistsResponse.exists) {
-        toast.warning(
-          "Vous n'avez pas de compte. Veuillez vous inscrire d'abord."
-        );
-        setLoading(false);
-        return;
-      }
-
       const response = await loginUser(formData.email, formData.password);
       dispatch(setUser(response.user));
       dispatch(
         setToken({
           access: response.token.access,
           refresh: response.token.refresh,
+          user_id: response.user_id,
         })
       );
 
-      localStorage.setItem("user", JSON.stringify(response.user_id));
+      // localStorage.setItem("user", JSON.stringify(response.user_id));
 
       setFormData({
         email: "",
