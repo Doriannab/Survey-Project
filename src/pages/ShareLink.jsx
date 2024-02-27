@@ -5,19 +5,47 @@ import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import { Toaster, toast } from "sonner";
 import AllInOne from "./AllInOne";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ShareLink = () => {
   const token = useSelector(selectToken);
   const userId = useSelector(selectUserId);
   const liensSondages = useSelector(selectLienSondageStockes);
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [question, setQuestion] = useState(""); 
   const { sondageId } = useParams();
 
   useEffect(() => {
-    console.log("Current sondageId:", sondageId);
-  }, [sondageId]);
+    const fetchQuestion = async () => {
+      try {
+        if (!token || !sondageId) {
+          console.log(
+            "Pas de Token ou de sondageId. Impossible de voir les resultats"
+          );
+          return;
+        }
 
-  const userLiensSondages = liensSondages.filter((lien) => lien.owner == userId && lien.sondageId == sondageId);
+        const sondageResponse = await axios.get(
+          `https://pulso-backend.onrender.com/api/sondages/${sondageId}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setQuestion(sondageResponse.data.question);
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    };
+
+    fetchQuestion();
+  }, [token, sondageId]);
+
+  const userLiensSondages = liensSondages.filter(
+    (lien) => lien.owner == userId && lien.sondageId == sondageId
+  );
 
   const handleCopy = (lien, index) => {
     if (lien && token) {
@@ -28,8 +56,12 @@ const ShareLink = () => {
         setCopiedIndex(null);
       }, 1500);
     } else {
-      console.error("Utilisateur pas authentifié ou pas de lien disponible");
-      toast.error("Utilisateur pas authentifié ou pas de lien disponible!");
+      console.error(
+        "Utilisateur pas authentifié ou pas de lien disponible"
+      );
+      toast.error(
+        "Utilisateur pas authentifié ou pas de lien disponible!"
+      );
     }
   };
 
@@ -37,7 +69,8 @@ const ShareLink = () => {
     <div>
       <AllInOne />
       <div className="mt-40 font-sans">
-        <div className="mt-32 flex items-center justify-center">
+        <h1 className="text-2xl text-center font-bold mb-4">{question}</h1>
+        <div className="mt-10 flex items-center justify-center">
           <Toaster position="top-left" />
           {userLiensSondages.length > 0 && token ? (
             <div>

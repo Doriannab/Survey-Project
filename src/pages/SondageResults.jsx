@@ -108,7 +108,7 @@ const SondageResults = () => {
   return (
     <div>
       <AllInOne />
-      <div className="flex align-center justify-center flex-col mt-10">
+      <div className="mt-40 flex-col mb-10">
         <h1 className="text-2xl text-center font-bold mb-4">
           {question}
         </h1>
