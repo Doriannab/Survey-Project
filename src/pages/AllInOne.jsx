@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 const AllInOne = () => {
   return (
     <div>
-      <nav className="mb-4">
-        <ul className="flex space-x-4 ms-4 mt-20 ">
+      <nav className="fixed top-0 w-full bg-white mb-4">
+        <ul className="flex justify-center space-x-4 ms-4 mt-20">
           <li>
             <Link
               to="/sondages/resultats"
@@ -30,7 +30,7 @@ const AllInOne = () => {
             </Link>
           </li>
         </ul>
-        <hr className="w-76 mx-4 " />
+        <hr className="w-76 mx-4" />
       </nav>
     </div>
   );
