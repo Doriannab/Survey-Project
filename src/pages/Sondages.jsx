@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -36,16 +37,29 @@ const Sondages = () => {
               setLoading(false);
             })
             .catch((error) => {
-              if (axios.isAxiosError(error) && error.response?.status === 401) {
-                console.log("Unauthorized error, refreshing token...");
+              if (
+                (axios.isAxiosError(error) && error.response?.status === 401) ||
+                error.response?.status === 403
+              ) {
                 dispatch(
                   refreshAccessTokenAsync(localStorage.getItem("refreshToken"))
-                );
+                )
+                  .then((response) => {
+                    fetchData();
+                  })
+                  .catch((refreshError) => {
+                    console.error(
+                      "Error refreshing access token:",
+                      refreshError
+                    );
+                    setLoading(false);
+                  });
               } else {
                 console.error("Error fetching surveys:", error);
                 setLoading(false);
               }
             });
+          // navigate("/forms");
         }
       } catch (error) {
         console.error("Error:", error);
