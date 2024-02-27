@@ -8,6 +8,7 @@ import {
 import { setUser, setToken } from "../../components/features/AuthSlice";
 import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 const Inscription = () => {
   const dispatch = useDispatch();
@@ -147,15 +148,23 @@ const Inscription = () => {
           <button
             type="submit"
             className={`w-full font-bold ${
-              loading ? "bg-gray-600" : "bg-blue-500"
+              loading ? "bg-gray-400" : "bg-blue-500"
             } text-white py-1 mt-4 px-4 rounded-md hover:${
-              loading ? "bg-gray-600" : "bg-blue-600"
+              loading ? "bg-gray-400" : "bg-blue-600"
             } focus:outline-none focus:${
-              loading ? "bg-gray-600" : "bg-blue-600"
+              loading ? "bg-gray-400" : "bg-blue-600"
             }`}
             disabled={loading}
           >
-            {loading ? "Inscription en cours..." : "S'inscrire"}
+            {loading ? (
+              <CircularProgress
+                size={19}
+                thickness={4}
+                className="text-white"
+              />
+            ) : (
+              "S'inscrire"
+            )}
           </button>
           <p className="text-sm text-start text-gray-800 mt-4">
             Vous avez déjà un compte ?{" "}
