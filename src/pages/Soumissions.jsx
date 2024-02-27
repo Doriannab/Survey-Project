@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import { useSelector } from "react-redux";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
+import { selectToken, selectUserId } from "../components/features/AuthSlice";
+
 import AllInOne from "./AllInOne";
 import { useParams } from 'react-router-dom';
 
 const Soumissions = () => {
   const [soumissions, setSoumissions] = useState([]);
+  const [question, setQuestion] = useState(""); 
   const token = useSelector(selectToken);
   const user_id = useSelector(selectUserId);
   const lienSondagesStockes = useSelector(selectLienSondageStockes);
 
   const { sondageId } = useParams();
   console.log("ID du Sondage :", sondageId);
-  
+
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
@@ -22,14 +24,14 @@ const Soumissions = () => {
           console.log("Pas de Token ou d'ID de sondage. Impossible de voir les soumissions");
           return;
         }
-  
+
         const sondage = lienSondagesStockes.find(s => s.sondageId == sondageId);
-  
+
         if (!sondage || sondage.owner !== user_id) {
           console.log("Sondage non trouvé ou non autorisé");
           return;
         }
-  
+
         const response = await axios.get(
           `https://pulso-backend.onrender.com/api/sondages/${sondageId}/resultats/`,
           {
@@ -38,13 +40,24 @@ const Soumissions = () => {
             },
           }
         );
-  
+
         setSoumissions(response.data.answers);
+
+        const sondageResponse = await axios.get(
+          `https://pulso-backend.onrender.com/api/sondages/${sondageId}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setQuestion(sondageResponse.data.question);
       } catch (error) {
         console.error("Erreur:", error);
       }
     };
-  
+
     fetchSubmissions();
   }, [sondageId, token, user_id, lienSondagesStockes]);
 
@@ -81,7 +94,7 @@ const Soumissions = () => {
     <div className="flex align-center text-center gap-12 justify-center mb-12 flex-col">
       <AllInOne />
       <h1 className="text-2xl font-bold mb-4">
-        Soumissions du Sondage {sondageId}
+         {question}
       </h1>
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
