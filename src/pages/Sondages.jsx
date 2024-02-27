@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import LinearProgress from "@mui/material/LinearProgress";
 
-
 const Sondages = () => {
   const [sondages, setSondages] = useState([]);
   const token = useSelector(selectToken);
@@ -14,7 +13,6 @@ const Sondages = () => {
   const navigate = useNavigate();
   const lienSondagesStockes = useSelector(selectLienSondageStockes);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     if (token) {
@@ -30,7 +28,9 @@ const Sondages = () => {
           });
 
           const filteredSondageIds = lienSondagesStockes
-            .filter((s) => userSondages.map((sondage) => sondage.id).includes(s.sondageId))
+            .filter((s) =>
+              userSondages.map((sondage) => sondage.id).includes(s.sondageId)
+            )
             .map((s) => s.sondageId);
 
           console.log("Sondage Ids:", filteredSondageIds);
@@ -50,16 +50,15 @@ const Sondages = () => {
   };
 
   return (
-    <div className="mt-40 text-center font-sans">
-         {loading && <LinearProgress className="mt-20" />}
-         {!loading && token && sondages.length === 0 && (
+    <div className="mt-30 text-center font-sans">
+      {loading && <LinearProgress className="mt-20" />}
+      {!loading && token && sondages.length === 0 && (
         <div className="text-center text-gray-400 text-2xl font-bold">
-          {token
-            ? "Aucun sondage à afficher pour l'utilisateur connecté. Veuillez créer d'abord vos sondages pour qu'ils puissent s'afficher ici !"
-            : "Veuillez vous connecter pour voir vos sondages existants."}
+          {token &&
+            "Aucun sondage à afficher pour l'utilisateur connecté. Veuillez créer d'abord vos sondages pour qu'ils puissent s'afficher ici !"}
         </div>
       )}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 cursor-pointer">
         {sondages.length === 1 ? (
           <div
             key={sondages[0].id}
