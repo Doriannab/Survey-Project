@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import { useNavigate } from "react-router";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
+import LinearProgress from "@mui/material/LinearProgress";
+
 
 const Sondages = () => {
   const [sondages, setSondages] = useState([]);
@@ -11,6 +13,8 @@ const Sondages = () => {
   const userId = useSelector(selectUserId);
   const navigate = useNavigate();
   const lienSondagesStockes = useSelector(selectLienSondageStockes);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     if (token) {
@@ -32,9 +36,11 @@ const Sondages = () => {
           console.log("Sondage Ids:", filteredSondageIds);
 
           setSondages(userSondages);
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching surveys:", error);
+          setLoading(false);
         });
     }
   }, [token, userId, lienSondagesStockes]);
@@ -45,7 +51,8 @@ const Sondages = () => {
 
   return (
     <div className="mt-40 text-center font-sans">
-      {(!token || sondages.length === 0) && (
+         {loading && <LinearProgress className="mt-20" />}
+         {!loading && token && sondages.length === 0 && (
         <div className="text-center text-gray-400 text-2xl font-bold">
           {token
             ? "Aucun sondage à afficher pour l'utilisateur connecté. Veuillez créer d'abord vos sondages pour qu'ils puissent s'afficher ici !"

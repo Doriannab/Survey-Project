@@ -6,12 +6,12 @@ const AllInOne = () => {
 
   return (
     <div>
-      <nav className="mb-4">
-        <ul className="flex space-x-4 ms-4 mt-20 ">
+      <nav className="fixed top-0 w-full bg-white mb-4">
+        <ul className="flex justify-center space-x-4 ms-4 mt-20">
           <li>
             <Link
               to={`/resultats/${sondageId}`}
-              className="text-gray-400 font-bold hover:text-red-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Résultats
             </Link>
@@ -19,7 +19,7 @@ const AllInOne = () => {
           <li>
             <Link
               to={`/soumissions/${sondageId}`}
-              className="text-gray-400 font-bold hover:text-green-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Soumissions
             </Link>
@@ -27,13 +27,13 @@ const AllInOne = () => {
           <li>
             <Link
               to={`/share-link/${sondageId}`} 
-              className="text-gray-400 font-bold hover:text-blue-700 focus:text-gray-600"
+              className="text-gray-400 font-bold hover:text-gray-600 focus:text-gray-600"
             >
               Liens
             </Link>
           </li>
         </ul>
-        <hr className="w-76 mx-4 " />
+        <hr className="w-76 mx-4" />
       </nav>
     </div>
   );
