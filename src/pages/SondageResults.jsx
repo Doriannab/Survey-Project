@@ -3,9 +3,11 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectToken, selectUserId } from "../components/features/AuthSlice";
 import AllInOne from "./AllInOne";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const SondageResults = () => {
+  const [loading, setLoading] = useState(true); // État pour le chargement
   const [result, setResult] = useState({});
   const [question, setQuestion] = useState("");
   const token = useSelector(selectToken);
@@ -16,7 +18,9 @@ const SondageResults = () => {
     const fetchResults = async () => {
       try {
         if (!token || !sondageId) {
-          console.log("Pas de Token ou de sondageId. Impossible de voir les resultats");
+          console.log(
+            "Pas de Token ou de sondageId. Impossible de voir les resultats"
+          );
           return;
         }
 
@@ -31,7 +35,7 @@ const SondageResults = () => {
 
         setResult(sondageResponse.data);
         setQuestion(sondageResponse.data.question);
-
+        setLoading(false); // Mettre le chargement à false une fois les données reçues
       } catch (error) {
         console.error("Erreur:", error);
       }
@@ -47,6 +51,16 @@ const SondageResults = () => {
         <div className="text-center text-gray-400 text-2xl font-bold mt-40">
           Veuillez vous connecter pour voir les résultats.
         </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      // Afficher le loader pendant le chargement
+      <div>
+        <AllInOne />
+        <LinearProgress />
       </div>
     );
   }
@@ -109,7 +123,7 @@ const SondageResults = () => {
     <div>
       <AllInOne />
       <div className="mt-40 flex-col mb-10">
-        <h1 className="text-2xl text-center font-bold mb-4">
+        <h1 className="text-gray-500 text-4xl font-black mb-10 text-center">
           {question}
         </h1>
         <div className="options-container">{graphiqueOptionBar}</div>

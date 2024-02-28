@@ -7,7 +7,6 @@ import { Toaster, toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 // Composant principal
 const Connexion = () => {
   const dispatch = useDispatch();
@@ -111,7 +110,7 @@ const Connexion = () => {
               "Se connecter"
             )}
           </button>
-          <p className="text-sm text-start text-gray-800 mt-4">
+          <p className="text-sm text-center text-gray-800 mt-4">
             Vous n'avez pas de compte ?{" "}
             <Link
               to="/inscription"

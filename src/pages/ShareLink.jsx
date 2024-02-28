@@ -6,18 +6,22 @@ import { Toaster, toast } from "sonner";
 import AllInOne from "./AllInOne";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const ShareLink = () => {
   const token = useSelector(selectToken);
   const userId = useSelector(selectUserId);
   const liensSondages = useSelector(selectLienSondageStockes);
   const [copiedIndex, setCopiedIndex] = useState(null);
-  const [question, setQuestion] = useState(""); 
+  const [question, setQuestion] = useState("");
+  const [loading, setLoading] = useState(true);
   const { sondageId } = useParams();
 
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
+        setLoading(true);
+
         if (!token || !sondageId) {
           console.log(
             "Pas de Token ou de sondageId. Impossible de voir les resultats"
@@ -35,8 +39,10 @@ const ShareLink = () => {
         );
 
         setQuestion(sondageResponse.data.question);
+        setLoading(false);
       } catch (error) {
         console.error("Erreur:", error);
+        setLoading(false);
       }
     };
 
@@ -56,12 +62,8 @@ const ShareLink = () => {
         setCopiedIndex(null);
       }, 1500);
     } else {
-      console.error(
-        "Utilisateur pas authentifié ou pas de lien disponible"
-      );
-      toast.error(
-        "Utilisateur pas authentifié ou pas de lien disponible!"
-      );
+      console.error("Utilisateur pas authentifié ou pas de lien disponible");
+      toast.error("Utilisateur pas authentifié ou pas de lien disponible!");
     }
   };
 
@@ -69,10 +71,14 @@ const ShareLink = () => {
     <div>
       <AllInOne />
       <div className="mt-40 font-sans">
-        <h1 className="text-2xl text-center font-bold mb-4">{question}</h1>
+        <h1 className="text-gray-500 text-4xl font-black mb-10 text-center">
+          {question}
+        </h1>
         <div className="mt-10 flex items-center justify-center">
           <Toaster position="top-left" />
-          {userLiensSondages.length > 0 && token ? (
+          {loading ? (
+            <LinearProgress />
+          ) : userLiensSondages.length > 0 && token ? (
             <div>
               {userLiensSondages.map((lien, index) => (
                 <div key={index} className="mb-4">
@@ -96,7 +102,7 @@ const ShareLink = () => {
             </div>
           ) : (
             <p className="text-center text-gray-400 text-2xl font-bold">
-              Pas de lien disponible. Créez un sondage ou connectez-vous.
+              Pas de lien disponible. Créez un sondage avant.
             </p>
           )}
         </div>
