@@ -71,7 +71,9 @@ const ShareLink = () => {
     <div>
       <AllInOne />
       <div className="mt-40 font-sans">
-        <h1 className="text-2xl text-center font-bold mb-4">{question}</h1>
+        <h1 className="text-gray-500 text-4xl font-black mb-10 text-center">
+          {question}
+        </h1>
         <div className="mt-10 flex items-center justify-center">
           <Toaster position="top-left" />
           {loading ? (

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import LinearProgress from "@mui/material/LinearProgress"; // Modification de l'import
+import { CircularProgress } from "@mui/material"; // Ajout de CircularProgress pour le bouton
+import { Toaster, toast } from "sonner";
 
 const SondageVote = () => {
   const navigate = useNavigate();
@@ -11,6 +14,7 @@ const SondageVote = () => {
     options: [],
   });
   const [selectedOption, setSelectedOption] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchSondageDetails = async () => {
@@ -44,6 +48,8 @@ const SondageVote = () => {
         return;
       }
 
+      setIsLoading(true);
+
       const response = await axios.post(
         "https://pulso-backend.onrender.com/api/sondages/choix/",
         {
@@ -54,13 +60,17 @@ const SondageVote = () => {
 
       // Vérifier la réponse du serveur
       if (response.status === 201) {
-        console.log("Vote réussi !");
-        navigate("/pageaftervote");
+        toast.success("Merci pour votre vote!");
+        setTimeout(() => {
+          navigate("/pageaftervote");
+        }, 2000);
       } else {
         console.error("Erreur lors du vote");
       }
     } catch (error) {
       console.error("Erreur lors du vote:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,7 +82,10 @@ const SondageVote = () => {
 
   return (
     <div className="text-center mt-40 font-sans">
-      <h1 className="text-3xl font-bold mb-4">{question}</h1>
+      <Toaster position="top-left" />
+      <h1 className="text-gray-500 text-4xl font-black mb-10 text-center">
+        {question}
+      </h1>
       <ul className="list-none">
         {options.map((option, index) => (
           <li key={index} className="mb-2">
@@ -90,11 +103,15 @@ const SondageVote = () => {
         ))}
       </ul>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md mt-4"
+        className={`bg-${isLoading ? "gray-400" : "blue-500"} hover:bg-${
+          isLoading ? "gray-400" : "blue-700"
+        } text-white font-bold py-1 px-4 rounded-md mt-4`}
         onClick={handleVoteClick}
+        disabled={isLoading}
       >
-        Voter
+        {isLoading ? <CircularProgress size={20} /> : "Voter"}
       </button>
+      {isLoading && <LinearProgress />}
     </div>
   );
 };

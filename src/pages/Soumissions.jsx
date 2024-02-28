@@ -104,8 +104,10 @@ const Soumissions = () => {
   return (
     <div className="flex align-center text-center gap-12 justify-center mb-12 flex-col">
       <AllInOne />
-      <h1 className="text-2xl font-bold mb-4">{question}</h1>
-      <table className="min-w-full bg-white border border-gray-300">
+      <h1 className="text-gray-500 text-4xl font-black my-10 text-center">
+        {question}
+      </h1>
+      <table className="flex flex-col items-center bg-white border border-gray-300">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b border-r">Created At</th>

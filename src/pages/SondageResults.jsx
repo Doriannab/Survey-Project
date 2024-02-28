@@ -123,7 +123,9 @@ const SondageResults = () => {
     <div>
       <AllInOne />
       <div className="mt-40 flex-col mb-10">
-        <h1 className="text-2xl text-center font-bold mb-4">{question}</h1>
+        <h1 className="text-gray-500 text-4xl font-black mb-10 text-center">
+          {question}
+        </h1>
         <div className="options-container">{graphiqueOptionBar}</div>
       </div>
     </div>
