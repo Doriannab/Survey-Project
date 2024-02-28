@@ -25,7 +25,7 @@ const PageAfterVote = () => {
       </h2>
       <p className="text-lg mb-6">Vous pouvez créer un formulaire ici :</p>
       <Link
-        to="/Forms"
+        to="/forms"
         className="bg-blue-500 text-white px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition duration-300"
       >
         Aller vers les formulaires
