@@ -166,7 +166,7 @@ const Inscription = () => {
               "S'inscrire"
             )}
           </button>
-          <p className="text-sm text-start text-gray-800 mt-4">
+          <p className="text-sm text-center text-gray-800 mt-4">
             Vous avez déjà un compte ?{" "}
             <Link
               to="/connexion"
