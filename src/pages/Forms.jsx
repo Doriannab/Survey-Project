@@ -77,10 +77,12 @@ const Forms = () => {
       if (res && res.status === 201) {
         const { slug, id: sondageId, owner: userId } = res.data;
         const lienSondage = `https://backup-pulso.vercel.app/sondages/${slug}`;
-  
-        dispatch(setLienSondageStockes({ sondageId, lien: lienSondage, owner: userId }));
+
+        dispatch(
+          setLienSondageStockes({ sondageId, lien: lienSondage, owner: userId })
+        );
         dispatch(setSondageId([sondageId]));
-        
+
         toast.success(
           "Sondage créé. Vous pouvez à présent partager votre sondage !"
         );
@@ -143,7 +145,7 @@ const Forms = () => {
         <div className="mb-4">
           <textarea
             placeholder="Titre du formulaire"
-            className="w-full p-2 border-none outline-none text-4xl font-bold rounded"
+            className="w-full p-2 border-none outline-none text-4xl font-bold rounded-md text-gray-500"
             required
             value={formTitle}
             onChange={(e) => setFormTitle(e.target.value)}
@@ -155,7 +157,7 @@ const Forms = () => {
               <button
                 type="button"
                 onClick={() => removeField(field.key)}
-                className={`px-2 py-1 mr-1 rounded ${
+                className={`px-2 py-1 mr-1 rounded text-gray-500 ${
                   index === 0 ? "disabled" : ""
                 }`}
                 disabled={index === 0}
@@ -165,7 +167,7 @@ const Forms = () => {
               <button
                 type="button"
                 onClick={addField}
-                className="px-2 py-1 rounded"
+                className="px-2 py-1 rounded text-gray-500"
               >
                 <AddRoundedIcon />
               </button>
@@ -176,7 +178,7 @@ const Forms = () => {
               placeholder="Contenu du formulaire"
               value={field.value}
               onChange={(e) => handleFieldChange(index, e)}
-              className="w-full px-2 border-b border-gray-300 font-bold focus:outline-none focus:border-gray-400 rounded"
+              className="w-full px-2 border-b border-gray-300 font-bold focus:outline-none focus:border-gray-400 rounded text-gray-500"
               required
             />
           </div>
