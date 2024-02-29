@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import LinearProgress from "@mui/material/LinearProgress"; // Modification de l'import
-import { CircularProgress } from "@mui/material"; // Ajout de CircularProgress pour le bouton
+import LinearProgress from "@mui/material/LinearProgress";
+import { CircularProgress } from "@mui/material";
 import { Toaster, toast } from "sonner";
 
 const SondageVote = () => {
