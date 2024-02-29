@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { selectToken, selectUserId } from "../components/features/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshAccessTokenAsync, selectToken, selectUserId, setToken } from "../components/features/AuthSlice";
 import { useNavigate } from "react-router";
 import { selectLienSondageStockes } from "../components/features/SondageSlices";
 import LinearProgress from "@mui/material/LinearProgress";
+
 
 const Sondages = () => {
   const [sondages, setSondages] = useState([]);
@@ -13,16 +14,21 @@ const Sondages = () => {
   const navigate = useNavigate();
   const lienSondagesStockes = useSelector(selectLienSondageStockes);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const isMounted = useRef(true);
+  // const tokenTest = localStorage.getItem('accessToken')
 
   useEffect(() => {
-    if (token) {
-      axios
-        .get("https://pulso-backend.onrender.com/api/sondages/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
+    const fetchData = async () => {
+      if (token && isMounted.current) {
+
+        try {
+          const response = await axios.get("https://pulso-backend.onrender.com/api/sondages/", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
           const userSondages = response.data.filter((survey) => {
             return survey.owner === parseInt(userId);
           });
@@ -33,17 +39,74 @@ const Sondages = () => {
             )
             .map((s) => s.sondageId);
 
-          console.log("Sondage Ids:", filteredSondageIds);
+          console.log(" Sondage Ids:", filteredSondageIds);
 
           setSondages(userSondages);
           setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching surveys:", error);
-          setLoading(false);
-        });
+        } catch (error) {
+          if (error.response.status === 401) {
+            try {
+              const refreshResponse = await dispatch(refreshAccessTokenAsync());
+              const newAccessToken = refreshResponse.payload.access;
+              localStorage.setItem("accessToken", newAccessToken);
+              console.log('Nouveau Token:', newAccessToken);
+
+              dispatch(setToken({
+                access: newAccessToken,
+                user: refreshResponse.payload.user,
+                expiry: refreshResponse.payload.expiry
+              }));
+
+              if (newAccessToken) {
+                // fetchData();
+                const res = await axios.get("https://pulso-backend.onrender.com/api/sondages/", {
+                headers: {
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              });
+              console.log('Reponses:', res)
+
+              const userSondages = res.data.filter((survey) => {
+                return survey.owner === parseInt(userId);
+              });
+    
+              const filteredSondageIds = lienSondagesStockes
+                .filter((s) =>
+                  userSondages.map((sondage) => sondage.id).includes(s.sondageId)
+                )
+                .map((s) => s.sondageId);
+    
+              console.log(" Sondage Ids:", filteredSondageIds);
+    
+              setSondages(userSondages);
+                console.log('Token refreshing succesufully')
+              } else {
+                console.error("Token pas disponible");
+              }
+            
+            } catch (refreshError) {
+              console.error("Erreur lors du rafraîchissement du token:", refreshError);
+            }finally{
+              setLoading(false);
+            }
+          } else {
+            console.error("Erreur lors de la récupération des sondages:", error);
+          }
+        }
+      }
+    };
+
+    if (token) {
+      fetchData();
+    } else {
+      console.error("Token pas disponible");
     }
-  }, [token, userId, lienSondagesStockes]);
+  
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, [token, userId, lienSondagesStockes, dispatch]);
 
   const handleClick = (sondageId) => {
     navigate(`/resultats/${sondageId}`);

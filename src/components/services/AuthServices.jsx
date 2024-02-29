@@ -57,17 +57,21 @@ export const loginUser = async (email, password) => {
 };
 
 // Fonction pour renouveler le token
-export const refreshAccessToken = async (refreshToken) => {
+export const refreshAccessToken = async () => {
+  const TokenRecupere = localStorage.getItem("refreshToken");
+  console.log('Refresh Token :', TokenRecupere)
   try {
-    const response = await axios.post(`${API_BASE_URL}refresh-token/`, {
-      refresh_token: refreshToken,
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}refresh-token/`,
+      { refresh: TokenRecupere }, 
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      throw error.response.data;
-    } else {
-      throw error;
-    }
+    console.error('Erreur lors du rafraîchissement du token:', error);
   }
 };
