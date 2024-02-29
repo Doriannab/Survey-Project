@@ -45,9 +45,9 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(refreshAccessTokenAsync.fulfilled, (state, action) => {
-      const { access, user } = action.payload;
+      const { access, user_id } = action.payload;
       state.token = access;
-      state.user = user;
+      state.user_id = user_id;
       state.expiry = action.payload.expiry;
     });
     builder.addCase(refreshAccessTokenAsync.rejected, (state, action) => {
